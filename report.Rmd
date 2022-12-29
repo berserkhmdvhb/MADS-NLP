@@ -38,6 +38,7 @@ library(cluster)
 library(igraph)
 library(fpc)
 library(magrittr)
+library(textreuse)
 #packages <- c("tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "knitr", "dplyr", "broom", "janitor", "renv", "purrr")
 #install.packages(packages, dependencies = TRUE)
 
@@ -84,7 +85,7 @@ for(i in 1:nrow(df)) {       # for-loop over rows
 
 ```{r}
 loc <- "/home/hamed/Documents/R/MADS-NLP/data/texts"
-docs <- VCorpus(DirSource(loc)) 
+docs <- tm::VCorpus(DirSource(loc)) 
 summary(docs) 
 ```
 
@@ -110,7 +111,7 @@ In [Word Frequency](#wordfreq) section, frequency of different terms in document
 ## **Remove punctuation**
 
 ```{r}
-docs <- tm_map(docs,removePunctuation)   
+docs <- tm::tm_map(docs,removePunctuation)   
 writeLines(as.character(docs[1])) 
 ```
 
@@ -130,15 +131,15 @@ writeLines(as.character(docs[1]))
 ## **Remove numbers**
 
 ```{r}
-docs <- tm_map(docs, removeNumbers)   
+docs <- tm::tm_map(docs, removeNumbers)   
 writeLines(as.character(docs[1])) 
 ```
 
 ## **Converting to lowercase**
 
 ```{r}
-docs <- tm_map(docs, tolower)   
-docs <- tm_map(docs, PlainTextDocument)
+docs <- tm::tm_map(docs, tolower)   
+docs <- tm::tm_map(docs, PlainTextDocument)
 DocsCopy <- docs
 writeLines(as.character(docs[1])) 
 ```
@@ -148,15 +149,15 @@ writeLines(as.character(docs[1]))
 ```{r}
 # For a list of the stopwords, see:   
 length(stopwords("english"))   
-docs <- tm_map(docs, removeWords, stopwords("english"))   
-docs <- tm_map(docs, PlainTextDocument)
+docs <- tm::tm_map(docs, removeWords, stopwords("english"))   
+docs <- tm::tm_map(docs, PlainTextDocument)
 writeLines(as.character(docs[1]))
 ```
   
 ## **Remove particular stopwords** 
 
 ```{r}
-#docs <- tm_map(docs, removeWords, c("syllogism", "tautology"))   
+#docs <- tm::tm_map(docs, removeWords, c("syllogism", "tautology"))   
 # Just remove the words "syllogism" and "tautology". 
 # These words don't actually exist in these texts. But this is how you would remove them if they had.
 ```
@@ -201,7 +202,7 @@ This tells R to treat the preprocessed documents as text documents.
 
 
 ```{r}
-docs <- tm_map(docs, stripWhitespace)
+docs <- tm::tm_map(docs, stripWhitespace)
 writeLines(as.character(docs[1]))
 ```
 
@@ -210,14 +211,14 @@ writeLines(as.character(docs[1]))
 
 
 ```{r}
-dtm <- DocumentTermMatrix(docs)   
+dtm <- tm::DocumentTermMatrix(docs)   
 dtm 
 ```
 
 Storing transpose of matrix
 
 ```{r}
-tdm <- TermDocumentMatrix(docs)   
+tdm <- tm::TermDocumentMatrix(docs)   
 tdm  
 ```
 
@@ -307,7 +308,7 @@ p
 # **Relationships Between Terms**
 
 ```{r}
-findAssocs(dtm, c("government" , "states"), corlimit=0.75) # specifying a correlation limit of 0.85 
+tm::findAssocs(dtm, c("government" , "states"), corlimit=0.75)
 ```
 
 
@@ -323,7 +324,7 @@ Colorized version:
 
 ```{r}
 set.seed(142)   
-wordcloud(names(freq), freq, min.freq=20, scale=c(5, .1), colors=brewer.pal(6, "Dark2")) 
+wordcloud::wordcloud(names(freq), freq, min.freq=20, scale=c(5, .1), colors=brewer.pal(6, "Dark2")) 
 ```
 
 Plot words that occur at least 100 times.
@@ -331,7 +332,7 @@ Plot words that occur at least 100 times.
 ```{r}
 set.seed(142)   
 dark2 <- brewer.pal(6, "Dark2")   
-wordcloud(names(freq), freq, max.words=100, rot.per=0.2, colors=dark2)  
+wordcloud::wordcloud(names(freq), freq, max.words=100, rot.per=0.2, colors=dark2)  
 ```
 
 # **Clustering by Term Similarity**
@@ -369,3 +370,6 @@ d <- dist(t(dtms), method="euclidian")
 kfit <- kmeans(d, 2)   
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
+
+# **Doc Simlarity**
+
