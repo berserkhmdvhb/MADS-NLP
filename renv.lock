@@ -75,6 +75,14 @@
       "Hash": "e9c08b94391e9f3f97355841229124f2",
       "Requirements": []
     },
+    "RcppProgress": {
+      "Package": "RcppProgress",
+      "Version": "0.4.2",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "1c0aa18b97e6aaa17f93b8b866c0ace5",
+      "Requirements": []
+    },
     "SnowballC": {
       "Package": "SnowballC",
       "Version": "0.7.0",
@@ -89,6 +97,14 @@
       "Source": "Repository",
       "Repository": "RSPM",
       "Hash": "78829a8b6523754fec2a6c90796c93bb",
+      "Requirements": []
+    },
+    "assertthat": {
+      "Package": "assertthat",
+      "Version": "0.2.1",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "50c838a310445e954bc13f26f26a6ecf",
       "Requirements": []
     },
     "backports": {
@@ -780,6 +796,25 @@
         "glue",
         "magrittr",
         "stringi"
+      ]
+    },
+    "textreuse": {
+      "Package": "textreuse",
+      "Version": "0.1.5",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "bbcaea795f77569e3ac9ca10c80ab5fa",
+      "Requirements": [
+        "BH",
+        "NLP",
+        "Rcpp",
+        "RcppProgress",
+        "assertthat",
+        "digest",
+        "dplyr",
+        "stringr",
+        "tibble",
+        "tidyr"
       ]
     },
     "tibble": {
