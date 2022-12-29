@@ -315,22 +315,9 @@ findAssocs(dtm, c("government" , "states"), corlimit=0.75) # specifying a correl
 findAssocs(dtms, "government", corlimit=0.70) # specifying a correlation limit of 0.95   
 ```
 
-# Word Clouds
+**Word Clouds**
 
 Plot words that occur at least 25 times.
-
-```{r warning=FALSE}
-set.seed(142)   
-wordcloud(names(freq), freq, min.freq=25) 
-```
-
-Plot the 100 most frequently used words.
-
-```{r}
-set.seed(142)   
-wordcloud(names(freq), freq, max.words=100)
-```
-
 
 Colorized version:
 
@@ -338,3 +325,15 @@ Colorized version:
 set.seed(142)   
 wordcloud(names(freq), freq, min.freq=20, scale=c(5, .1), colors=brewer.pal(6, "Dark2")) 
 ```
+
+Plot words that occur at least 100 times.
+
+```{r}
+set.seed(142)   
+dark2 <- brewer.pal(6, "Dark2")   
+wordcloud(names(freq), freq, max.words=100, rot.per=0.2, colors=dark2)  
+```
+
+# **Clustering by Term Similarity**
+
+## **Hierarchal Clustering**
