@@ -447,12 +447,7 @@ dim(dtms)
 ```
 
 
-
-```{r}
-max(dtms)
-dim(dtms)
-```
-
+1
 
 
 
@@ -468,7 +463,8 @@ cosine_dist_mat
 
 
 ```{r}
-library(slam)
 dtms[,1]
 cosine_sim <- tcrossprod_simple_triplet_matrix(dtms[,1], dtms[,1])/sqrt(row_sums(dtms[,1]^2) %*% t(row_sums(dtms[,1]^2)))
+
+cosine_sim
 ```
