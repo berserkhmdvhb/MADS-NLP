@@ -337,3 +337,35 @@ wordcloud(names(freq), freq, max.words=100, rot.per=0.2, colors=dark2)
 # **Clustering by Term Similarity**
 
 ## **Hierarchal Clustering**
+
+
+```{r}
+d <- dist(t(dtms), method="euclidian")   
+fit <- hclust(d=d, method="complete")   # for a different look try substituting: method="ward.D"
+fit   
+```
+
+```{r}
+plot(fit, hang=-1)
+```
+
+```{r}
+plot.new()
+plot(fit, hang=-1)
+groups <- cutree(fit, k=6)   # "k=" defines the number of clusters you are using   
+rect.hclust(fit, k=6, border="red") # draw dendogram with red borders around the 6 clusters
+```
+
+
+## **K-means Clustering**
+
+```{r}
+d <- dist(t(dtms), method="euclidian")   
+kfit <- kmeans(d, 2)   
+clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
+```
+```{r}
+d <- dist(t(dtms), method="euclidian")   
+kfit <- kmeans(d, 2)   
+clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
+```
