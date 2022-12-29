@@ -3,14 +3,14 @@ title: "NLP Project Report"
 author: "Najada Feimi, Elnaz Khaveh, Hamed Vaheb"
 date: "12/29/2022"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     number_sections: yes
     toc: yes
     code_folding: hide
     theme: readable
     highlight: haddock
-  pdf_document:
-    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -467,5 +467,5 @@ cosine_dist_mat
 dtms[,1]
 cosine_sim <- tcrossprod_simple_triplet_matrix(dtms[,1], dtms[,2])/sqrt(row_sums(dtms[,2]^2) %*% t(row_sums(dtms[,1]^2)))
 
-cosine_sim
+#cosine_sim
 ```
