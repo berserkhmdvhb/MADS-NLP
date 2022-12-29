@@ -2,7 +2,15 @@
 title: "NLP Project Report"
 author: "Najada Feimi, Elnaz Khaveh, Hamed Vaheb"
 date: "12/29/2022"
-output: html_document
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    code_folding: hide
+    theme: readable
+    highlight: haddock
+  pdf_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -11,7 +19,25 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r message = FALSE, warning = FALSE}
-## R Markdown
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library(broom)
+library(janitor)
+library(renv)
+library(purrr)
+library(tm)
+library(SnowballC)
+library(RColorBrewer)
+library(ggplot2)
+library(wordcloud)
+library(biclust)
+library(cluster)
+library(igraph)
+library(fpc)
+#packages <- c("tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "knitr", "dplyr", "broom", "janitor", "renv", "purrr")
+#install.packages(packages, dependencies = TRUE)
+
 ```
 
 
