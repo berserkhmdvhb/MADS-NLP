@@ -187,7 +187,7 @@ docs <- tm_map(docs, stripWhitespace)
 writeLines(as.character(docs[1]))
 ```
 
-## **Finalize**
+## **Type Check**
 
 Be sure to use the following script once you have completed preprocessing.
 This tells R to treat the preprocessed documents as text documents.
@@ -197,3 +197,41 @@ This tells R to treat the preprocessed documents as text documents.
 docs <- tm_map(docs, stripWhitespace)
 writeLines(as.character(docs[1]))
 ```
+
+## **Create Doc Term Matrix**
+
+
+
+```{r}
+dtm <- DocumentTermMatrix(docs)   
+dtm 
+```
+
+Storing transpose of matrix
+
+```{r}
+tdm <- TermDocumentMatrix(docs)   
+tdm  
+```
+
+
+## **Organize by frequency**
+
+
+```{r}
+freq <- colSums(as.matrix(dtm))   
+length(freq)   
+```
+
+```{r}
+ord <- order(freq)
+m <- as.matrix(dtm)   
+dim(m)  
+```
+
+
+Store the matrix to memory
+```{r}
+#write.csv(m, file="DocumentTermMatrix.csv")   
+```
+
