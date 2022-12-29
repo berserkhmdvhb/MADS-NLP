@@ -155,3 +155,23 @@ writeLines(as.character(docs[1]))
 
 
 If you wish to preserve a concept is only apparent as a collection of two or more words, then you can combine them or reduce them to a meaningful acronym before you begin the analysis. Here, I am using examples that are particular to qualitative data analysis.
+
+```{r}
+for (j in seq(docs))
+{
+  docs[[j]] <- gsub("fake news", "fake_news", docs[[j]])
+  docs[[j]] <- gsub("inner city", "inner-city", docs[[j]])
+  docs[[j]] <- gsub("politically correct", "politically_correct", docs[[j]])
+}
+docs <- tm_map(docs, PlainTextDocument)
+```
+
+**Removing common word endings (e.g., “ing”, “es”, “s”)**
+
+```{r}
+## Note: I did not run this section of code for this particular example.
+docs_st <- tm_map(docs, stemDocument)   
+docs_st <- tm_map(docs_st, PlainTextDocument)
+writeLines(as.character(docs_st[1])) # Check to see if it worked.
+# docs <- docs_st
+```
