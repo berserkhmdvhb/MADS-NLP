@@ -420,13 +420,14 @@ clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 
 //TODO: Perform doc similarity using the [textreuse](https://docs.ropensci.org/textreuse/) library.
 ```{r}
-loc <- "/home/hamed/Documents/R/MADS-NLP/data/texts"
+#loc <- "/home/hamed/Documents/R/MADS-NLP/data/texts"
 #docs <- tm::VCorpus(DirSource(loc)) 
-#dir <- system.file(DirSource(loc), package = "textreuse")
-corpus <- TextReuseCorpus(dir = dir, meta = list(title = "Civil procedure"),
-                          tokenizer = tokenize_ngrams, n = 7)
+
+loc <- "/home/hamed/Documents/R/MADS-NLP/data/texts"
+corpus <- TextReuseCorpus(dir=loc)
 
 
-comparisons <- pairwise_compare(docs, jaccard_similarity)
-comparisons
+comparisons <- pairwise_compare(corpus, jaccard_similarity)
+compare_df <- pairwise_candidates(comparisons)
+compare_df |> dplyr::glimpse()
 ```
