@@ -154,6 +154,12 @@ In [Preprocessing](#preprocess) section, numerous text mining tasks are implemen
 
 In [Word Frequency](#wordfreq) section, frequency of different terms in documents are analyzed and visualized.
 
+In [Word Frequency](#wordfreq) section, frequency of different terms in documents are analyzed and visualized.
+
+In [Doc Similarity](#docsim), similarity between documents is measured, analyzed, and  visualized.
+
+In [Conclusion](#conclusion), main findings are summarized.
+
 The github repository for this package can be found in this [link](https://github.com/berserkhmdvhb/MADS-NLP)
 
 # **Preprocessing** {#preprocess}
@@ -424,7 +430,7 @@ kfit <- kmeans(d, 4)
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
 
-# **Doc Simlarity**
+# **Doc Simlarity** {#docsim}
 
 //TODO: Perform doc similarity using the [textreuse](https://docs.ropensci.org/textreuse/) library, analyze and visualize reults.
 
@@ -473,3 +479,7 @@ cosine_sim <- tcrossprod_simple_triplet_matrix(dtms[,1], dtms[,2])/sqrt(row_sums
 
 #cosine_sim
 ```
+
+# **Conclusion** {#conclusion}
+
+//TODO: writing
