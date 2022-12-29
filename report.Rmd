@@ -155,6 +155,7 @@ In [Preprocessing](#preprocess) section, numerous text mining tasks are implemen
 In [Word Frequency](#wordfreq) section, frequency of different terms in documents are analyzed and visualized.
 
 The github repository for this package can be found in this [link](https://github.com/berserkhmdvhb/MADS-NLP)
+
 # **Preprocessing** {#preprocess}
 
 The [tm](https://www.rdocumentation.org/packages/tm) is a framework for text mining applications within R.
@@ -425,7 +426,7 @@ clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 
 # **Doc Simlarity**
 
-//TODO: Perform doc similarity using the [textreuse](https://docs.ropensci.org/textreuse/) library.
+//TODO: Perform doc similarity using the [textreuse](https://docs.ropensci.org/textreuse/) library, analyze and visualize reults.
 
 ```{r}
 #loc <- "/home/hamed/Documents/R/MADS-NLP/data/texts"
