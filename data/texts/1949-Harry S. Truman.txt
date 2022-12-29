@@ -1,5 +1,4 @@
-"x"
-"1" "
+
 [Delivered in person at the Capitol]
 Mr. Vice President, Mr. Chief Justice, fellow citizens:
 I accept with humility the honor which the American people have conferred upon me. I accept it with a resolve to do all that I can for the welfare of this Nation and for the peace of the world.
@@ -73,4 +72,4 @@ Events have brought our American democracy to new influence and new responsibili
 But I say to all men, what we have achieved in liberty, we will surpass in greater liberty.
 Steadfast in our faith in the Almighty, we will advance toward a world where man's freedom is secure.
 To that end we will devote our strength, our resources, and our firmness of resolve. With God's help, the future of mankind will be assured in a world of justice, harmony, and peace.
-"
+

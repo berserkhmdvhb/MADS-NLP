@@ -1,5 +1,4 @@
-"x"
-"1" "
+
 Mr. Chairman, Mr. Vice President, Mr. Chief Justice, Mr. Speaker, members of my family and friends, my countrymen, and the friends of my country wherever they may be:
 We meet again, as upon a like moment four years ago, and again you have witnessed my solemn oath of service to you.
 I, too, am a witness, today testifying in your name to the principles and purposes to which we, as a people, are pledged.
@@ -42,4 +41,4 @@ And so the prayer of our people carries far beyond our own frontiers, to the wid
 May the light of freedom, coming to all darkened lands, flame brightly--until at last the darkness is no more.
 May the turbulence of our age yield to a true time of peace, when men and nations shall share a life that honors the dignity of each, the brotherhood of all.
 Thank you very much.
-"
+

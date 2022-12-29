@@ -1,5 +1,4 @@
-"x"
-"1" "
+
 The four years which have elapsed since last I stood in this place have been crowded with counsel and action of the most vital interest and consequence. Perhaps no equal period in our history has been so fruitful of important reforms in our economic and industrial life or so full of significant changes in the spirit and purpose of our political action. We have sought very thoughtfully to set our house in order, correct the grosser errors and abuses of our industrial life, liberate and quicken the processes of our national genius and energy, and lift our politics to a broader view of the people's essential interests.
 It is a record of singular variety and singular distinction. But I shall not attempt to review it. It speaks for itself and will be of increasing influence as the years go by. This is not the time for retrospect. It is time rather to speak our thoughts and purposes concerning the present and the immediate future.
 Although we have centered counsel and action with such unusual concentration and success upon the great problems of domestic legislation to which we addressed ourselves four years ago, other matters have more and more forced themselves upon our attention--matters lying outside our own life as a nation and over which we had no control, but which, despite our wish to keep free of them, have drawn us more and more irresistibly into their own current and influence.
@@ -17,4 +16,4 @@ I know now what the task means. I realize to the full the responsibility which i
 We are to beware of all men who would turn the tasks and the necessities of the nation to their own private profit or use them for the building up of private power.
 United alike in the conception of our duty and in the high resolve to perform it in the face of all men, let us dedicate ourselves to the great task to which we must now set our hand. For myself I beg your tolerance, your countenance and your united aid.
 The shadows that now lie dark upon our path will soon be dispelled, and we shall walk with the light all about us if we be but true to ourselves--to ourselves as we have wished to be known in the counsels of the world and in the thought of all those who love liberty and justice and the right exalted.
-"
+

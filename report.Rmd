@@ -76,7 +76,7 @@ for(i in 1:nrow(df)) {       # for-loop over rows
   file_name <- paste(file_name, ".txt", 
                      sep="")
   loc <- paste("/home/hamed/Documents/R/MADS-NLP/data/texts/", file_name, sep="")
-  #write.table(text,loc)
+  #writeLines(text, loc)
 }  
   
 ```
