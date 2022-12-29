@@ -38,7 +38,10 @@ library(cluster)
 library(igraph)
 library(fpc)
 library(magrittr)
+
 library(textreuse)
+library(slam)
+
 #packages <- c("tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "knitr", "dplyr", "broom", "janitor", "renv", "purrr")
 #install.packages(packages, dependencies = TRUE)
 
@@ -434,4 +437,44 @@ compare_df <- as.data.frame(compare_df,
 #compare_df <- compare_df[order(compare_df$score,decreasing=TRUE)]
 compare_df <- compare_df[order(compare_df$score,decreasing=TRUE),]
 compare_df |> head(20)
+```
+
+
+```{r}
+
+
+
+jaccard_similarity <- function(m) {
+  A <- tcrossprod(m)
+  im <- which(A > 0, arr.ind=TRUE, useNames = F)
+  b <- rowSums(m)
+  Aim <- A[im]
+  sparseMatrix(
+    i = im[,1],
+    j = im[,2],
+    x = Aim / (b[im[,1]] + b[im[,2]] - Aim),
+    dims = dim(A)
+  )
+}
+
+jaccard_distance <- function(m) {
+  1 - jaccard_similarity(m)
+}
+
+cosine <- function(m) {
+  m_normalized <- m / sqrt(rowSums(m ^ 2))
+  tcrossprod(m_normalized)
+}
+
+
+max(dtms)
+
+dim(dtms)
+
+```
+
+```{r}
+
+cosine_dist_mat <- 1 - crossprod_simple_triplet_matrix(dtms)/(sqrt(col_sums(dtms^2) %*% t(col_sums(dtms^2))))
+
 ```
