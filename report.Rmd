@@ -3,14 +3,14 @@ title: "NLP Project Report"
 author: "Najada Feimi, Elnaz Khaveh, Hamed Vaheb"
 date: "12/29/2022"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     number_sections: yes
     toc: yes
     code_folding: hide
     theme: readable
     highlight: haddock
+  pdf_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -154,8 +154,11 @@ In [Preprocessing](#preprocess) section, numerous text mining tasks are implemen
 
 In [Word Frequency](#wordfreq) section, frequency of different terms in documents are analyzed and visualized.
 
-
+The github repository for this package can be found in this [link](https://github.com/berserkhmdvhb/MADS-NLP)
 # **Preprocessing** {#preprocess}
+
+The [tm](https://www.rdocumentation.org/packages/tm) is a framework for text mining applications within R.
+Most functions used henceforth stems from this package.
 
 ## **Remove punctuation**
 
@@ -184,7 +187,7 @@ docs <- tm::tm_map(docs, removeNumbers)
 writeLines(as.character(docs[1])) 
 ```
 
-## **Converting to lowercase**
+## **Convert to lowercase**
 
 ```{r}
 docs <- tm::tm_map(docs, tolower)   
