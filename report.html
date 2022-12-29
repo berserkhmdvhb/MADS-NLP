@@ -547,6 +547,7 @@ pre code {
 <li><a href="#describe-dataset"><span class="toc-section-number">2.1</span> <strong>Describe Dataset</strong></a></li>
 <li><a href="#goal-and-procedure"><span class="toc-section-number">2.2</span> <strong>Goal and Procedure</strong></a></li>
 </ul></li>
+<li><a href="#preprocessing"><span class="toc-section-number">3</span> Preprocessing</a></li>
 </ul>
 </div>
 
@@ -608,10 +609,109 @@ pre code {
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sep=</span><span class="st">&quot;-&quot;</span>)</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  file_name <span class="ot">&lt;-</span> <span class="fu">paste</span>(file_name, <span class="st">&quot;.txt&quot;</span>, </span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  loc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;/home/hamed/Documents/R/MADS-NLP/data/speech_files/&quot;</span>, file_name, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(text,loc)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  loc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;/home/hamed/Documents/R/MADS-NLP/data/texts/&quot;</span>, file_name, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">#write.table(text,loc)</span></span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>}  </span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>loc <span class="ot">&lt;-</span> <span class="st">&quot;/home/hamed/Documents/R/MADS-NLP/data/texts&quot;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>docs <span class="ot">&lt;-</span> <span class="fu">VCorpus</span>(<span class="fu">DirSource</span>(loc)) </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(docs) </span></code></pre></div>
+<pre><code>##                                 Length Class             Mode
+## 1789-George Washington.txt      2      PlainTextDocument list
+## 1793-George Washington.txt      2      PlainTextDocument list
+## 1797-John Adams.txt             2      PlainTextDocument list
+## 1801-Thomas Jefferson.txt       2      PlainTextDocument list
+## 1805-Thomas Jefferson.txt       2      PlainTextDocument list
+## 1809-James Madison.txt          2      PlainTextDocument list
+## 1813-James Madison.txt          2      PlainTextDocument list
+## 1817-James Monroe.txt           2      PlainTextDocument list
+## 1821-James Monroe.txt           2      PlainTextDocument list
+## 1825-John Quincy Adams.txt      2      PlainTextDocument list
+## 1829-Andrew Jackson.txt         2      PlainTextDocument list
+## 1833-Andrew Jackson.txt         2      PlainTextDocument list
+## 1837-Martin van Buren.txt       2      PlainTextDocument list
+## 1841-William Henry Harrison.txt 2      PlainTextDocument list
+## 1845-James K. Polk.txt          2      PlainTextDocument list
+## 1849-Zachary Taylor.txt         2      PlainTextDocument list
+## 1853-Franklin Pierce.txt        2      PlainTextDocument list
+## 1857-James Buchanan.txt         2      PlainTextDocument list
+## 1861-Abraham Lincoln.txt        2      PlainTextDocument list
+## 1865-Abraham Lincoln.txt        2      PlainTextDocument list
+## 1869-Ulysses S. Grant.txt       2      PlainTextDocument list
+## 1873-Ulysses S. Grant.txt       2      PlainTextDocument list
+## 1877-Rutherford B. Hayes.txt    2      PlainTextDocument list
+## 1881-James A. Garfield.txt      2      PlainTextDocument list
+## 1885-Grover Cleveland.txt       2      PlainTextDocument list
+## 1889-Benjamin Harrison.txt      2      PlainTextDocument list
+## 1893-Grover Cleveland.txt       2      PlainTextDocument list
+## 1897-William McKinley.txt       2      PlainTextDocument list
+## 1901-William McKinley.txt       2      PlainTextDocument list
+## 1905-Theodore Roosevelt.txt     2      PlainTextDocument list
+## 1909-William Howard Taft.txt    2      PlainTextDocument list
+## 1913-Woodrow Wilson.txt         2      PlainTextDocument list
+## 1917-Woodrow Wilson.txt         2      PlainTextDocument list
+## 1921-Warren G. Harding.txt      2      PlainTextDocument list
+## 1925-Calvin Coolidge.txt        2      PlainTextDocument list
+## 1929-Herbert Hoover.txt         2      PlainTextDocument list
+## 1933-Franklin D. Roosevelt.txt  2      PlainTextDocument list
+## 1937-Franklin D. Roosevelt.txt  2      PlainTextDocument list
+## 1941-Franklin D. Roosevelt.txt  2      PlainTextDocument list
+## 1945-Franklin D. Roosevelt.txt  2      PlainTextDocument list
+## 1949-Harry S. Truman.txt        2      PlainTextDocument list
+## 1953-Dwight D. Eisenhower.txt   2      PlainTextDocument list
+## 1957-Dwight D. Eisenhower.txt   2      PlainTextDocument list
+## 1961-John F. Kennedy.txt        2      PlainTextDocument list
+## 1965-Lyndon B. Johnson.txt      2      PlainTextDocument list
+## 1969-Richard Nixon.txt          2      PlainTextDocument list
+## 1973-Richard Nixon.txt          2      PlainTextDocument list
+## 1977-Jimmy Carter.txt           2      PlainTextDocument list
+## 1981-Ronald Reagan.txt          2      PlainTextDocument list
+## 1985-Ronald Reagan.txt          2      PlainTextDocument list
+## 1989-George Bush.txt            2      PlainTextDocument list
+## 1993-William J. Clinton.txt     2      PlainTextDocument list
+## 1997-William J. Clinton.txt     2      PlainTextDocument list
+## 2001-George W. Bush.txt         2      PlainTextDocument list
+## 2005-George W. Bush.txt         2      PlainTextDocument list
+## 2009-Barack Obama.txt           2      PlainTextDocument list
+## 2013-Barack Obama.txt           2      PlainTextDocument list
+## 2017-Donald J. Trump.txt        2      PlainTextDocument list
+## 2021-Joseph R. Biden.txt        2      PlainTextDocument list</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(docs[<span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## &lt;&lt;VCorpus&gt;&gt;
+## Metadata:  corpus specific: 0, document level (indexed): 0
+## Content:  documents: 1
+## 
+## [[1]]
+## &lt;&lt;PlainTextDocument&gt;&gt;
+## Metadata:  7
+## Content:  chars: 8628</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">as.character</span>(docs[<span class="dv">1</span>]))</span></code></pre></div>
+<pre><code>## list(list(content = c(&quot;\&quot;x\&quot;&quot;, &quot;\&quot;1\&quot; \&quot;&quot;, &quot;Fellow-Citizens of the Senate and of the House of Representatives:&quot;, &quot;Among the vicissitudes incident to life no event could have filled me with greater anxieties than that of which the notification was transmitted by your order, and received on the 14th day of the present month. On the one hand, I was summoned by my country, whose voice I can never hear but with veneration and love, from a retreat which I had chosen with the fondest predilection, and, in my flattering hopes, with an immutable decision, as the asylum of my declining years—a retreat which was rendered every day more necessary as well as more dear to me by the addition of habit to inclination, and of frequent interruptions in my health to the gradual waste committed on it by time. On the other hand, the magnitude and difficulty of the trust to which the voice of my country called me, being sufficient to awaken in the wisest and most experienced of her citizens a distrustful scrutiny into his qualifications, could not but overwhelm with despondence one who (inheriting inferior endowments from nature and unpracticed in the duties of civil administration) ought to be peculiarly conscious of his own deficiencies. In this conflict of emotions all I dare aver is that it has been my faithful study to collect my duty from a just appreciation of every circumstance by which it might be affected. All I dare hope is that if, in executing this task, I have been too much swayed by a grateful remembrance of former instances, or by an affectionate sensibility to this transcendent proof of the confidence of my fellow-citizens, and have thence too little consulted my incapacity as well as disinclination for the weighty and untried cares before me, my error will be palliated by the motives which mislead [see APP note] me, and its consequences be judged by my country with some share of the partiality in which they originated.&quot;, 
+## &quot;Such being the impressions under which I have, in obedience to the public summons, repaired to the present station, it would be peculiarly improper to omit in this first official act my fervent supplications to that Almighty Being who rules over the universe, who presides in the councils of nations, and whose providential aids can supply every human defect, that His benediction may consecrate to the liberties and happiness of the people of the United States a Government instituted by themselves for these essential purposes, and may enable every instrument employed in its administration to execute with success the functions allotted to his charge. In tendering this homage to the Great Author of every public and private good, I assure myself that it expresses your sentiments not less than my own, nor those of my fellow-citizens at large less than either. No people can be bound to acknowledge and adore the Invisible Hand which conducts the affairs of men more than those of the United States. Every step by which they have advanced to the character of an independent nation seems to have been distinguished by some token of providential agency; and in the important revolution just accomplished in the system of their united government the tranquil deliberations and voluntary consent of so many distinct communities from which the event has resulted can not be compared with the means by which most governments have been established without some return of pious gratitude, along with an humble anticipation of the future blessings which the past seem to presage. These reflections, arising out of the present crisis, have forced themselves too strongly on my mind to be suppressed. You will join with me, I trust, in thinking that there are none under the influence of which the proceedings of a new and free government can more auspiciously commence.&quot;, 
+## &quot;By the article establishing the executive department it is made the duty of the President \\\&quot;to recommend to your consideration such measures as he shall judge necessary and expedient.\\\&quot; The circumstances under which I now meet you will acquit me from entering into that subject further than to refer to the great constitutional charter under which you are assembled, and which, in defining your powers, designates the objects to which your attention is to be given. It will be more consistent with those circumstances, and far more congenial with the feelings which actuate me, to substitute, in place of a recommendation of particular measures, the tribute that is due to the talents, the rectitude, and the patriotism which adorn the characters selected to devise and adopt them. In these honorable qualifications I behold the surest pledges that as on one side no local prejudices or attachments, no separate views nor party animosities, will misdirect the comprehensive and equal eye which ought to watch over this great assemblage of communities and interests, so, on another, that the foundation of our national policy will be laid in the pure and immutable principles of private morality, and the preeminence of free government be exemplified by all the attributes which can win the affections of its citizens and command the respect of the world. I dwell on this prospect with every satisfaction which an ardent love for my country can inspire, since there is no truth more thoroughly established than that there exists in the economy and course of nature an indissoluble union between virtue and happiness; between duty and advantage; between the genuine maxims of an honest and magnanimous policy and the solid rewards of public prosperity and felicity; since we ought to be no less persuaded that the propitious smiles of Heaven can never be expected on a nation that disregards the eternal rules of order and right which Heaven itself has ordained; and since the preservation of the sacred fire of liberty and the destiny of the republican model of government are justly considered, perhaps, as deeply, as finally, staked on the experiment entrusted to the hands of the American people.&quot;, 
+## &quot;Besides the ordinary objects submitted to your care, it will remain with your judgment to decide how far an exercise of the occasional power delegated by the fifth article of the Constitution is rendered expedient at the present juncture by the nature of objections which have been urged against the system, or by the degree of inquietude which has given birth to them. Instead of undertaking particular recommendations on this subject, in which I could be guided by no lights derived from official opportunities, I shall again give way to my entire confidence in your discernment and pursuit of the public good; for I assure myself that whilst you carefully avoid every alteration which might endanger the benefits of an united and effective government, or which ought to await the future lessons of experience, a reverence for the characteristic rights of freemen and a regard for the public harmony will sufficiently influence your deliberations on the question how far the former can be impregnably fortified or the latter be safely and advantageously promoted.&quot;, 
+## &quot;To the foregoing observations I have one to add, which will be most properly addressed to the House of Representatives. It concerns myself, and will therefore be as brief as possible. When I was first honored with a call into the service of my country, then on the eve of an arduous struggle for its liberties, the light in which I contemplated my duty required that I should renounce every pecuniary compensation. From this resolution I have in no instance departed; and being still under the impressions which produced it, I must decline as inapplicable to myself any share in the personal emoluments which may be indispensably included in a permanent provision for the executive department, and must accordingly pray that the pecuniary estimates for the station in which I am placed may during my continuance in it be limited to such actual expenditures as the public good may be thought to require.&quot;, 
+## &quot;Having thus imparted to you my sentiments as they have been awakened by the occasion which brings us together, I shall take my present leave; but not without resorting once more to the benign Parent of the Human Race in humble supplication that, since He has been pleased to favor the American people with opportunities for deliberating in perfect tranquillity, and dispositions for deciding with unparalleled unanimity on a form of government for the security of their union and the advancement of their happiness, so His divine blessing may be equally conspicuous in the enlarged views, the temperate consultations, and the wise measures on which the success of this Government must depend.&quot;, 
+## &quot;\&quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 46.9884507656097, min = 22, hour = 15, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = &quot;1789-George Washington.txt&quot;, language = &quot;en&quot;, origin = character(0))))
+## list()
+## list()</code></pre>
 </div>
+</div>
+<div id="preprocessing" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Preprocessing</h1>
+<p><strong>Remove punctuation:</strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>docs <span class="ot">&lt;-</span> <span class="fu">tm_map</span>(docs,removePunctuation)   </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># writeLines(as.character(docs[1])) # Check to see if it worked.</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The &#39;writeLines()&#39; function is commented out to save space.</span></span></code></pre></div>
+<p><strong>Remove special characters</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq</span>(docs)) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    docs[[j]] <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;/&quot;</span>, <span class="st">&quot; &quot;</span>, docs[[j]])</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    docs[[j]] <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;@&quot;</span>, <span class="st">&quot; &quot;</span>, docs[[j]])</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    docs[[j]] <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">|&quot;</span>, <span class="st">&quot; &quot;</span>, docs[[j]])</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    docs[[j]] <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;\u2028&quot;</span>, <span class="st">&quot; &quot;</span>, docs[[j]])  <span class="co"># This is an ascii character that did not translate, so it had to be removed.</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># writeLines(as.character(docs[1])) # You can check a document (in this case</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># the first) to see if it worked.</span></span></code></pre></div>
+<p><strong>Remove special characters</strong></p>
 </div>
 
 

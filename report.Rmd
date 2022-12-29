@@ -75,12 +75,48 @@ for(i in 1:nrow(df)) {       # for-loop over rows
                      sep="-")
   file_name <- paste(file_name, ".txt", 
                      sep="")
-  loc <- paste("/home/hamed/Documents/R/MADS-NLP/data/speech_files/", file_name, sep="")
-  write.table(text,loc)
+  loc <- paste("/home/hamed/Documents/R/MADS-NLP/data/texts/", file_name, sep="")
+  #write.table(text,loc)
 }  
   
 ```
 
 ```{r}
-dir <- /home/hamed/Documents/R/MADS-NLP/data/speech_files
+loc <- "/home/hamed/Documents/R/MADS-NLP/data/texts"
+docs <- VCorpus(DirSource(loc)) 
+summary(docs) 
 ```
+
+```{r}
+inspect(docs[1])
+```
+
+```{r}
+writeLines(as.character(docs[1]))
+```
+
+# Preprocessing
+
+**Remove punctuation:**
+```{r}
+docs <- tm_map(docs,removePunctuation)   
+# writeLines(as.character(docs[1])) # Check to see if it worked.
+    # The 'writeLines()' function is commented out to save space.
+```
+
+
+**Remove special characters**
+
+```{r}
+for (j in seq(docs)) {
+    docs[[j]] <- gsub("/", " ", docs[[j]])
+    docs[[j]] <- gsub("@", " ", docs[[j]])
+    docs[[j]] <- gsub("\\|", " ", docs[[j]])
+    docs[[j]] <- gsub("\u2028", " ", docs[[j]])  # This is an ascii character that did not translate, so it had to be removed.
+}
+# writeLines(as.character(docs[1])) # You can check a document (in this case
+# the first) to see if it worked.
+```
+
+**Remove special characters**
+  
