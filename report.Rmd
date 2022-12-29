@@ -104,6 +104,7 @@ df <- read.csv("https://raw.githubusercontent.com/berserkhmdvhb/MADS-NLP/main/da
 df |> dplyr::glimpse()
 ```
 
+
 ```{r}
 df |> summary()
 ```
@@ -464,7 +465,7 @@ cosine_dist_mat
 
 ```{r}
 dtms[,1]
-cosine_sim <- tcrossprod_simple_triplet_matrix(dtms[,1], dtms[,1])/sqrt(row_sums(dtms[,1]^2) %*% t(row_sums(dtms[,1]^2)))
+cosine_sim <- tcrossprod_simple_triplet_matrix(dtms[,1], dtms[,2])/sqrt(row_sums(dtms[,2]^2) %*% t(row_sums(dtms[,1]^2)))
 
 cosine_sim
 ```
