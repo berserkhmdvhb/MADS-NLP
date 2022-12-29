@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # **Import Libraries**
 
 ```{r message = FALSE, warning = FALSE}
-library(knitr)
+library(rmarkdown)
 library(dplyr)
 library(ggplot2)
 library(broom)
