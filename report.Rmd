@@ -442,16 +442,33 @@ compare_df |> head(20)
 
 
 ```{r}
-
 max(dtms)
-
 dim(dtms)
-
 ```
 
-**Cosine Similarity**
-```{r}
 
+
+```{r}
+max(dtms)
+dim(dtms)
+```
+
+
+
+
+**Cosine Similarity**
+
+
+```{r}
 cosine_dist_mat <- 1 - crossprod_simple_triplet_matrix(dtms)/(sqrt(col_sums(dtms^2) %*% t(col_sums(dtms^2))))
 
+cosine_dist_mat
+```
+
+
+
+```{r}
+library(slam)
+dtms[,1]
+cosine_sim <- tcrossprod_simple_triplet_matrix(dtms[,1], dtms[,1])/sqrt(row_sums(dtms[,1]^2) %*% t(row_sums(dtms[,1]^2)))
 ```
