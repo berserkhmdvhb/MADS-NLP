@@ -37,6 +37,7 @@ library(biclust)
 library(cluster)
 library(igraph)
 library(fpc)
+library(magrittr)
 #packages <- c("tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "knitr", "dplyr", "broom", "janitor", "renv", "purrr")
 #install.packages(packages, dependencies = TRUE)
 
@@ -44,9 +45,7 @@ library(fpc)
 
 # **Introduction**
 
-## **Describe Dataset**
-
-## **Goal and Procedure**
+## **Load Dataset**
 
 ```{r}
 df <- read.csv("https://raw.githubusercontent.com/berserkhmdvhb/MADS-NLP/main/data/presidents-speech.csv")
@@ -95,9 +94,14 @@ inspect(docs[1])
 writeLines(as.character(docs[1]))
 ```
 
-# Preprocessing
+## **Goal and Procedure**
 
-**Remove punctuation**
+TO BE FILLED
+
+
+# **Preprocessing**
+
+## **Remove punctuation**
 
 ```{r}
 docs <- tm_map(docs,removePunctuation)   
@@ -105,7 +109,7 @@ writeLines(as.character(docs[1]))
 ```
 
 
-**Remove special characters**
+## **Remove special characters**
 
 ```{r}
 for (j in seq(docs)) {
@@ -117,14 +121,14 @@ for (j in seq(docs)) {
 writeLines(as.character(docs[1]))
 ```
 
-**Remove numbers**
+## **Remove numbers**
 
 ```{r}
 docs <- tm_map(docs, removeNumbers)   
 writeLines(as.character(docs[1])) 
 ```
 
-**Converting to lowercase**
+## **Converting to lowercase**
 
 ```{r}
 docs <- tm_map(docs, tolower)   
@@ -133,7 +137,7 @@ DocsCopy <- docs
 writeLines(as.character(docs[1])) 
 ```
 
-**Removing "stopwords"** 
+## **Removing "stopwords"** 
 
 ```{r}
 # For a list of the stopwords, see:   
@@ -143,7 +147,7 @@ docs <- tm_map(docs, PlainTextDocument)
 writeLines(as.character(docs[1]))
 ```
   
-**Removing particular stopwords** 
+## **Removing particular stopwords** 
 
 ```{r}
 #docs <- tm_map(docs, removeWords, c("syllogism", "tautology"))   
@@ -151,7 +155,7 @@ writeLines(as.character(docs[1]))
 # These words don't actually exist in these texts. But this is how you would remove them if they had.
 ```
 
-**Combining words that should stay together** 
+## **Combining words that should stay together** 
 
 
 If you wish to preserve a concept is only apparent as a collection of two or more words, then you can combine them or reduce them to a meaningful acronym before you begin the analysis. Here, I am using examples that are particular to qualitative data analysis.
@@ -174,4 +178,22 @@ docs_st <- tm_map(docs, stemDocument)
 docs_st <- tm_map(docs_st, PlainTextDocument)
 writeLines(as.character(docs_st[1])) # Check to see if it worked.
 # docs <- docs_st
+```
+
+## **Stripping unnecesary whitespace**
+
+```{r}
+docs <- tm_map(docs, stripWhitespace)
+writeLines(as.character(docs[1]))
+```
+
+## **Finalize**
+
+Be sure to use the following script once you have completed preprocessing.
+This tells R to treat the preprocessed documents as text documents.
+
+
+```{r}
+docs <- tm_map(docs, stripWhitespace)
+writeLines(as.character(docs[1]))
 ```
