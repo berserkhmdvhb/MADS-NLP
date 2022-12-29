@@ -235,3 +235,12 @@ Store the matrix to memory
 #write.csv(m, file="DocumentTermMatrix.csv")   
 ```
 
+
+## **Remove infrequent words**
+
+```{r}
+#  Start by removing sparse terms:   
+dtms <- removeSparseTerms(dtm, 0.2) # This makes a matrix that is 20% empty space, maximum.   
+dtms
+```
+
