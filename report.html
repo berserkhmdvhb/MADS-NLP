@@ -547,7 +547,7 @@ pre code {
 <li><a href="#load-dataset"><span class="toc-section-number">2.1</span> <strong>Load Dataset</strong></a></li>
 <li><a href="#goal-and-procedure"><span class="toc-section-number">2.2</span> <strong>Goal and Procedure</strong></a></li>
 </ul></li>
-<li><a href="#preprocessing"><span class="toc-section-number">3</span> <strong>Preprocessing</strong></a>
+<li><a href="#preprocess"><span class="toc-section-number">3</span> <strong>Preprocessing</strong></a>
 <ul>
 <li><a href="#remove-punctuation"><span class="toc-section-number">3.1</span> <strong>Remove punctuation</strong></a></li>
 <li><a href="#remove-special-characters"><span class="toc-section-number">3.2</span> <strong>Remove special characters</strong></a></li>
@@ -555,13 +555,14 @@ pre code {
 <li><a href="#converting-to-lowercase"><span class="toc-section-number">3.4</span> <strong>Converting to lowercase</strong></a></li>
 <li><a href="#remove-stopwords"><span class="toc-section-number">3.5</span> <strong>Remove “stopwords”</strong></a></li>
 <li><a href="#remove-particular-stopwords"><span class="toc-section-number">3.6</span> <strong>Remove particular stopwords</strong></a></li>
-<li><a href="#combining-words-that-should-stay-together"><span class="toc-section-number">3.7</span> <strong>Combining words that should stay together</strong></a></li>
+<li><a href="#retain-compouned-words"><span class="toc-section-number">3.7</span> <strong>Retain compouned words</strong></a></li>
 <li><a href="#strip-unnecesary-whitespace"><span class="toc-section-number">3.8</span> <strong>Strip unnecesary whitespace</strong></a></li>
 <li><a href="#type-check"><span class="toc-section-number">3.9</span> <strong>Type Check</strong></a></li>
 <li><a href="#create-doc-term-matrix"><span class="toc-section-number">3.10</span> <strong>Create Doc Term Matrix</strong></a></li>
 <li><a href="#organize-by-frequency"><span class="toc-section-number">3.11</span> <strong>Organize by frequency</strong></a></li>
-<li><a href="#remove-infrequent-words"><span class="toc-section-number">3.12</span> <strong>Remove infrequent words</strong></a></li>
+<li><a href="#removesparse"><span class="toc-section-number">3.12</span> <strong>Remove sparse words</strong></a></li>
 </ul></li>
+<li><a href="#wordfreq"><span class="toc-section-number">4</span> Word Frequency</a></li>
 </ul>
 </div>
 
@@ -607,6 +608,7 @@ pre code {
 ##  Mean   :29.0                      Mean   :1905                     
 ##  3rd Qu.:43.5                      3rd Qu.:1963                     
 ##  Max.   :58.0                      Max.   :2021</code></pre>
+<p>In what follows, text files are generated from each row of dataframe and are stored in “texts” folder:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#presidents &lt;- df[[&quot;president&quot;]]|&gt; unique() |&gt;as.list()</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -703,16 +705,18 @@ pre code {
 ## &quot;Besides the ordinary objects submitted to your care, it will remain with your judgment to decide how far an exercise of the occasional power delegated by the fifth article of the Constitution is rendered expedient at the present juncture by the nature of objections which have been urged against the system, or by the degree of inquietude which has given birth to them. Instead of undertaking particular recommendations on this subject, in which I could be guided by no lights derived from official opportunities, I shall again give way to my entire confidence in your discernment and pursuit of the public good; for I assure myself that whilst you carefully avoid every alteration which might endanger the benefits of an united and effective government, or which ought to await the future lessons of experience, a reverence for the characteristic rights of freemen and a regard for the public harmony will sufficiently influence your deliberations on the question how far the former can be impregnably fortified or the latter be safely and advantageously promoted.&quot;, 
 ## &quot;To the foregoing observations I have one to add, which will be most properly addressed to the House of Representatives. It concerns myself, and will therefore be as brief as possible. When I was first honored with a call into the service of my country, then on the eve of an arduous struggle for its liberties, the light in which I contemplated my duty required that I should renounce every pecuniary compensation. From this resolution I have in no instance departed; and being still under the impressions which produced it, I must decline as inapplicable to myself any share in the personal emoluments which may be indispensably included in a permanent provision for the executive department, and must accordingly pray that the pecuniary estimates for the station in which I am placed may during my continuance in it be limited to such actual expenditures as the public good may be thought to require.&quot;, 
 ## &quot;Having thus imparted to you my sentiments as they have been awakened by the occasion which brings us together, I shall take my present leave; but not without resorting once more to the benign Parent of the Human Race in humble supplication that, since He has been pleased to favor the American people with opportunities for deliberating in perfect tranquillity, and dispositions for deciding with unparalleled unanimity on a form of government for the security of their union and the advancement of their happiness, so His divine blessing may be equally conspicuous in the enlarged views, the temperate consultations, and the wise measures on which the success of this Government must depend.&quot;, 
-## &quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 17.7968657016754, min = 15, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = &quot;1789-George Washington.txt&quot;, language = &quot;en&quot;, origin = character(0))))
+## &quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 14.1321892738342, min = 31, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = &quot;1789-George Washington.txt&quot;, language = &quot;en&quot;, origin = character(0))))
 ## list()
 ## list()</code></pre>
 </div>
 <div id="goal-and-procedure" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> <strong>Goal and Procedure</strong></h2>
-<p>TO BE FILLED</p>
+<p>This project is dedicated to investigating text similarity between speeches from different presidents of US during various years, starting from 1789 and ending with 2021.</p>
+<p>In <a href="#preprocess">Preprocessing</a> section, numerous text mining tasks are implemented on all the docs.</p>
+<p>In <a href="#wordfreq">Word Frequency</a> section, frequency of different terms in documents are analyzed and visualized.</p>
 </div>
 </div>
-<div id="preprocessing" class="section level1" number="3">
+<div id="preprocess" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> <strong>Preprocessing</strong></h1>
 <div id="remove-punctuation" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> <strong>Remove punctuation</strong></h2>
@@ -724,7 +728,7 @@ pre code {
 ## &quot;Besides the ordinary objects submitted to your care it will remain with your judgment to decide how far an exercise of the occasional power delegated by the fifth article of the Constitution is rendered expedient at the present juncture by the nature of objections which have been urged against the system or by the degree of inquietude which has given birth to them Instead of undertaking particular recommendations on this subject in which I could be guided by no lights derived from official opportunities I shall again give way to my entire confidence in your discernment and pursuit of the public good for I assure myself that whilst you carefully avoid every alteration which might endanger the benefits of an united and effective government or which ought to await the future lessons of experience a reverence for the characteristic rights of freemen and a regard for the public harmony will sufficiently influence your deliberations on the question how far the former can be impregnably fortified or the latter be safely and advantageously promoted&quot;, 
 ## &quot;To the foregoing observations I have one to add which will be most properly addressed to the House of Representatives It concerns myself and will therefore be as brief as possible When I was first honored with a call into the service of my country then on the eve of an arduous struggle for its liberties the light in which I contemplated my duty required that I should renounce every pecuniary compensation From this resolution I have in no instance departed and being still under the impressions which produced it I must decline as inapplicable to myself any share in the personal emoluments which may be indispensably included in a permanent provision for the executive department and must accordingly pray that the pecuniary estimates for the station in which I am placed may during my continuance in it be limited to such actual expenditures as the public good may be thought to require&quot;, 
 ## &quot;Having thus imparted to you my sentiments as they have been awakened by the occasion which brings us together I shall take my present leave but not without resorting once more to the benign Parent of the Human Race in humble supplication that since He has been pleased to favor the American people with opportunities for deliberating in perfect tranquillity and dispositions for deciding with unparalleled unanimity on a form of government for the security of their union and the advancement of their happiness so His divine blessing may be equally conspicuous in the enlarged views the temperate consultations and the wise measures on which the success of this Government must depend&quot;, 
-## &quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 17.7968657016754, min = 15, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = &quot;1789-George Washington.txt&quot;, language = &quot;en&quot;, origin = character(0))))
+## &quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 14.1321892738342, min = 31, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = &quot;1789-George Washington.txt&quot;, language = &quot;en&quot;, origin = character(0))))
 ## list()
 ## list()</code></pre>
 </div>
@@ -773,7 +777,7 @@ pre code {
 ## &quot;besides the ordinary objects submitted to your care it will remain with your judgment to decide how far an exercise of the occasional power delegated by the fifth article of the constitution is rendered expedient at the present juncture by the nature of objections which have been urged against the system or by the degree of inquietude which has given birth to them instead of undertaking particular recommendations on this subject in which i could be guided by no lights derived from official opportunities i shall again give way to my entire confidence in your discernment and pursuit of the public good for i assure myself that whilst you carefully avoid every alteration which might endanger the benefits of an united and effective government or which ought to await the future lessons of experience a reverence for the characteristic rights of freemen and a regard for the public harmony will sufficiently influence your deliberations on the question how far the former can be impregnably fortified or the latter be safely and advantageously promoted&quot;, 
 ## &quot;to the foregoing observations i have one to add which will be most properly addressed to the house of representatives it concerns myself and will therefore be as brief as possible when i was first honored with a call into the service of my country then on the eve of an arduous struggle for its liberties the light in which i contemplated my duty required that i should renounce every pecuniary compensation from this resolution i have in no instance departed and being still under the impressions which produced it i must decline as inapplicable to myself any share in the personal emoluments which may be indispensably included in a permanent provision for the executive department and must accordingly pray that the pecuniary estimates for the station in which i am placed may during my continuance in it be limited to such actual expenditures as the public good may be thought to require&quot;, 
 ## &quot;having thus imparted to you my sentiments as they have been awakened by the occasion which brings us together i shall take my present leave but not without resorting once more to the benign parent of the human race in humble supplication that since he has been pleased to favor the american people with opportunities for deliberating in perfect tranquillity and dispositions for deciding with unparalleled unanimity on a form of government for the security of their union and the advancement of their happiness so his divine blessing may be equally conspicuous in the enlarged views the temperate consultations and the wise measures on which the success of this government must depend&quot;, 
-## &quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 17.9365532398224, min = 15, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = character(0), language = character(0), origin = character(0))))
+## &quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 14.2629404067993, min = 31, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = character(0), language = character(0), origin = character(0))))
 ## list()
 ## list()</code></pre>
 </div>
@@ -791,7 +795,7 @@ pre code {
 ## &quot;besides  ordinary objects submitted   care  will remain   judgment  decide  far  exercise   occasional power delegated   fifth article   constitution  rendered expedient   present juncture   nature  objections    urged   system    degree  inquietude   given birth   instead  undertaking particular recommendations   subject      guided   lights derived  official opportunities  shall  give way   entire confidence   discernment  pursuit   public good   assure   whilst  carefully avoid every alteration  might endanger  benefits   united  effective government     await  future lessons  experience  reverence   characteristic rights  freemen   regard   public harmony will sufficiently influence  deliberations   question  far  former can  impregnably fortified   latter  safely  advantageously promoted&quot;, 
 ## &quot;  foregoing observations   one  add  will   properly addressed   house  representatives  concerns   will therefore   brief  possible    first honored   call   service   country    eve   arduous struggle   liberties  light    contemplated  duty required    renounce every pecuniary compensation   resolution     instance departed   still   impressions  produced   must decline  inapplicable    share   personal emoluments  may  indispensably included   permanent provision   executive department  must accordingly pray   pecuniary estimates   station     placed may   continuance    limited   actual expenditures   public good may  thought  require&quot;, 
 ## &quot; thus imparted    sentiments     awakened   occasion  brings us together  shall take  present leave   without resorting     benign parent   human race  humble supplication  since    pleased  favor  american people  opportunities  deliberating  perfect tranquillity  dispositions  deciding  unparalleled unanimity   form  government   security   union   advancement   happiness   divine blessing may  equally conspicuous   enlarged views  temperate consultations   wise measures    success   government must depend&quot;, 
-## &quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 18.1651265621185, min = 15, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = character(0), language = character(0), origin = character(0))))
+## &quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 14.4841480255127, min = 31, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = character(0), language = character(0), origin = character(0))))
 ## list()
 ## list()</code></pre>
 </div>
@@ -801,8 +805,8 @@ pre code {
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Just remove the words &quot;syllogism&quot; and &quot;tautology&quot;. </span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># These words don&#39;t actually exist in these texts. But this is how you would remove them if they had.</span></span></code></pre></div>
 </div>
-<div id="combining-words-that-should-stay-together" class="section level2" number="3.7">
-<h2><span class="header-section-number">3.7</span> <strong>Combining words that should stay together</strong></h2>
+<div id="retain-compouned-words" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> <strong>Retain compouned words</strong></h2>
 <p>If you wish to preserve a concept is only apparent as a collection of two or more words, then you can combine them or reduce them to a meaningful acronym before you begin the analysis. Here, I am using examples that are particular to qualitative data analysis.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq</span>(docs))</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>{</span>
@@ -821,7 +825,7 @@ pre code {
 ## &quot;articl establish execut depart made duti presid recommend consider measur shall judg necessari expedi circumst now meet will acquit enter subject refer great constitut charter assembl defin power design object attent given will consist circumst far congeni feel actuat substitut place recommend particular measur tribut due talent rectitud patriot adorn charact select devis adopt honor qualif behold surest pledg one side local prejudic attach separ view parti animos will misdirect comprehens equal eye watch great assemblag communiti interest anoth foundat nation polici will laid pure immut principl privat moral preemin free govern exemplifi attribut can win affect citizen command respect world dwell prospect everi satisfact ardent love countri can inspir sinc truth thorough establish exist economi cours natur indissolubl union virtu happi duti advantag genuin maxim honest magnanim polici solid reward public prosper felic sinc less persuad propiti smile heaven can never expect nation disregard etern rule order right heaven ordain sinc preserv sacr fire liberti destini republican model govern just consid perhap deepli final stake experi entrust hand american peopl&quot;, 
 ## &quot;besid ordinari object submit care will remain judgment decid far exercis occasion power deleg fifth articl constitut render expedi present junctur natur object urg system degre inquietud given birth instead undertak particular recommend subject guid light deriv offici opportun shall give way entir confid discern pursuit public good assur whilst care avoid everi alter might endang benefit unit effect govern await futur lesson experi rever characterist right freemen regard public harmoni will suffici influenc deliber question far former can impregn fortifi latter safe advantag promot&quot;, 
 ## &quot;forego observ one add will proper address hous repres concern will therefor brief possibl first honor call servic countri eve arduous struggl liberti light contempl duti requir renounc everi pecuniari compens resolut instanc depart still impress produc must declin inapplic share person emolu may indispens includ perman provis execut depart must accord pray pecuniari estim station place may continu limit actual expenditur public good may thought requir&quot;, &quot;thus impart sentiment awaken occas bring us togeth shall take present leav without resort benign parent human race humbl supplic sinc pleas favor american peopl opportun deliber perfect tranquil disposit decid unparallel unanim form govern secur union advanc happi divin bless may equal conspicu enlarg view temper consult wise measur success govern must depend&quot;, 
-## &quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 18.3237588405609, min = 15, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = character(0), language = character(0), origin = character(0))))
+## &quot;&quot;), meta = list(author = character(0), datetimestamp = list(sec = 14.6353671550751, min = 31, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = character(0), language = character(0), origin = character(0))))
 ## list()
 ## list()</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># docs &lt;- docs_st</span></span></code></pre></div>
@@ -836,7 +840,7 @@ pre code {
 ## &quot;besides ordinary objects submitted care will remain judgment decide far exercise occasional power delegated fifth article constitution rendered expedient present juncture nature objections urged system degree inquietude given birth instead undertaking particular recommendations subject guided lights derived official opportunities shall give way entire confidence discernment pursuit public good assure whilst carefully avoid every alteration might endanger benefits united effective government await future lessons experience reverence characteristic rights freemen regard public harmony will sufficiently influence deliberations question far former can impregnably fortified latter safely advantageously promoted&quot;, 
 ## &quot; foregoing observations one add will properly addressed house representatives concerns will therefore brief possible first honored call service country eve arduous struggle liberties light contemplated duty required renounce every pecuniary compensation resolution instance departed still impressions produced must decline inapplicable share personal emoluments may indispensably included permanent provision executive department must accordingly pray pecuniary estimates station placed may continuance limited actual expenditures public good may thought require&quot;, 
 ## &quot; thus imparted sentiments awakened occasion brings us together shall take present leave without resorting benign parent human race humble supplication since pleased favor american people opportunities deliberating perfect tranquillity dispositions deciding unparalleled unanimity form government security union advancement happiness divine blessing may equally conspicuous enlarged views temperate consultations wise measures success government must depend&quot;, &quot;&quot;), meta = list(author = character(0), datetimestamp = list(
-##     sec = 18.2215654850006, min = 15, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = character(0), language = character(0), origin = character(0))))
+##     sec = 14.5335159301758, min = 31, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = character(0), language = character(0), origin = character(0))))
 ## list()
 ## list()</code></pre>
 </div>
@@ -851,7 +855,7 @@ pre code {
 ## &quot;besides ordinary objects submitted care will remain judgment decide far exercise occasional power delegated fifth article constitution rendered expedient present juncture nature objections urged system degree inquietude given birth instead undertaking particular recommendations subject guided lights derived official opportunities shall give way entire confidence discernment pursuit public good assure whilst carefully avoid every alteration might endanger benefits united effective government await future lessons experience reverence characteristic rights freemen regard public harmony will sufficiently influence deliberations question far former can impregnably fortified latter safely advantageously promoted&quot;, 
 ## &quot; foregoing observations one add will properly addressed house representatives concerns will therefore brief possible first honored call service country eve arduous struggle liberties light contemplated duty required renounce every pecuniary compensation resolution instance departed still impressions produced must decline inapplicable share personal emoluments may indispensably included permanent provision executive department must accordingly pray pecuniary estimates station placed may continuance limited actual expenditures public good may thought require&quot;, 
 ## &quot; thus imparted sentiments awakened occasion brings us together shall take present leave without resorting benign parent human race humble supplication since pleased favor american people opportunities deliberating perfect tranquillity dispositions deciding unparalleled unanimity form government security union advancement happiness divine blessing may equally conspicuous enlarged views temperate consultations wise measures success government must depend&quot;, &quot;&quot;), meta = list(author = character(0), datetimestamp = list(
-##     sec = 18.2215654850006, min = 15, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = character(0), language = character(0), origin = character(0))))
+##     sec = 14.5335159301758, min = 31, hour = 16, mday = 29, mon = 11, year = 122, wday = 4, yday = 362, isdst = 0), description = character(0), heading = character(0), id = character(0), language = character(0), origin = character(0))))
 ## list()
 ## list()</code></pre>
 </div>
@@ -885,8 +889,8 @@ pre code {
 <p>Store the matrix to memory</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(m, file=&quot;DocumentTermMatrix.csv&quot;)   </span></span></code></pre></div>
 </div>
-<div id="remove-infrequent-words" class="section level2" number="3.12">
-<h2><span class="header-section-number">3.12</span> <strong>Remove infrequent words</strong></h2>
+<div id="removesparse" class="section level2" number="3.12">
+<h2><span class="header-section-number">3.12</span> <strong>Remove sparse words</strong></h2>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  Start by removing sparse terms:   </span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>dtms <span class="ot">&lt;-</span> <span class="fu">removeSparseTerms</span>(dtm, <span class="fl">0.2</span>) <span class="co"># This makes a matrix that is 20% empty space, maximum.   </span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>dtms</span></code></pre></div>
@@ -896,6 +900,32 @@ pre code {
 ## Maximal term length: 10
 ## Weighting          : term frequency (tf)</code></pre>
 </div>
+</div>
+<div id="wordfreq" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Word Frequency</h1>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>freq <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">as.matrix</span>(dtm))</span></code></pre></div>
+<p>Least frequent</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">table</span>(freq), <span class="dv">20</span>) </span></code></pre></div>
+<pre><code>## freq
+##    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16 
+## 4154 1404  788  535  359  291  226  177  162  146  112   85   82   90   43   59 
+##   17   18   19   20 
+##   49   35   47   38</code></pre>
+<p>The top number is the frequency with which words appear and the bottom number reflects how many words appear that frequently.</p>
+<p>Most frequent:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(<span class="fu">table</span>(freq), <span class="dv">40</span>) </span></code></pre></div>
+<pre><code>## freq
+## 134 137 138 139 142 143 147 150 155 157 159 171 179 184 185 198 207 210 221 222 
+##   1   1   2   1   1   1   1   1   1   2   1   1   1   2   1   1   1   1   1   1 
+## 227 232 240 250 256 267 302 303 304 314 318 337 341 346 373 374 488 567 576 942 
+##   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(<span class="fu">table</span>(freq), <span class="dv">40</span>) </span></code></pre></div>
+<pre><code>## freq
+## 134 137 138 139 142 143 147 150 155 157 159 171 179 184 185 198 207 210 221 222 
+##   1   1   2   1   1   1   1   1   1   2   1   1   1   2   1   1   1   1   1   1 
+## 227 232 240 250 256 267 302 303 304 314 318 337 341 346 373 374 488 567 576 942 
+##   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1</code></pre>
+<p>view a table of the terms we selected when we removed sparse terms in subsection <a href="#removesparse">Remove sparse words</a></p>
 </div>
 
 

@@ -98,10 +98,14 @@ writeLines(as.character(docs[1]))
 
 ## **Goal and Procedure**
 
-TO BE FILLED
+This project is dedicated to investigating text similarity between speeches from different presidents of US during various years, starting from 1789 and ending with 2021.
+
+In [Preprocessing](#preprocess) section, numerous text mining tasks are implemented on all the docs.
+
+In [Word Frequency](#wordfreq) section, frequency of different terms in documents are analyzed and visualized.
 
 
-# **Preprocessing**
+# **Preprocessing** {#preprocess}
 
 ## **Remove punctuation**
 
@@ -157,7 +161,7 @@ writeLines(as.character(docs[1]))
 # These words don't actually exist in these texts. But this is how you would remove them if they had.
 ```
 
-## **Combining words that should stay together** 
+## **Retain compouned words** 
 
 
 If you wish to preserve a concept is only apparent as a collection of two or more words, then you can combine them or reduce them to a meaningful acronym before you begin the analysis. Here, I am using examples that are particular to qualitative data analysis.
@@ -239,11 +243,40 @@ Store the matrix to memory
 ```
 
 
-## **Remove infrequent words**
+## **Remove sparse words** {#removesparse}
 
 ```{r}
 #  Start by removing sparse terms:   
 dtms <- removeSparseTerms(dtm, 0.2) # This makes a matrix that is 20% empty space, maximum.   
 dtms
 ```
+
+# Word Frequency {#wordfreq}
+
+```{r}
+freq <- colSums(as.matrix(dtm))
+```
+
+Least frequent
+
+```{r}
+head(table(freq), 20) 
+```
+
+ The top number is the frequency with which words appear and the bottom number reflects how many words appear that frequently.
+
+Most frequent:
+
+```{r}
+tail(table(freq), 40) 
+```
+
+
+```{r}
+tail(table(freq), 40) 
+```
+
+
+
+view a table of the terms we selected when we removed sparse terms in subsection [Remove sparse words](#removesparse)
 
