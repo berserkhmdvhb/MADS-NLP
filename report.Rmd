@@ -251,7 +251,7 @@ dtms <- removeSparseTerms(dtm, 0.2) # This makes a matrix that is 20% empty spac
 dtms
 ```
 
-# Word Frequency {#wordfreq}
+# **Word Frequency** {#wordfreq}
 
 ```{r}
 freq <- colSums(as.matrix(dtm))
@@ -272,11 +272,69 @@ tail(table(freq), 40)
 ```
 
 
+
+View a table of the terms we selected when we removed sparse terms in subsection [Remove sparse words](#removesparse)
+
 ```{r}
-tail(table(freq), 40) 
+freq <- sort(colSums(as.matrix(dtm)), decreasing=TRUE)     
+freq |> head(20)
 ```
 
 
+Identify all terms that appear frequently
+```{r}
+findFreqTerms(dtm, lowfreq=50) |> head(20)
+```
+Another approach to perform the same task:
 
-view a table of the terms we selected when we removed sparse terms in subsection [Remove sparse words](#removesparse)
+```{r}
+wf <- data.frame(word=names(freq), freq=freq)   
+head(wf) 
+```
 
+
+## **Plot**
+
+
+```{r}
+p <- ggplot(subset(wf, freq>100), aes(x = reorder(word, -freq), y = freq)) + 
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x=element_text(angle=45, hjust=1))
+
+p   
+```
+
+# **Relationships Between Terms**
+
+```{r}
+findAssocs(dtm, c("government" , "states"), corlimit=0.75) # specifying a correlation limit of 0.85 
+```
+
+
+```{r}
+findAssocs(dtms, "government", corlimit=0.70) # specifying a correlation limit of 0.95   
+```
+
+# Word Clouds
+
+Plot words that occur at least 25 times.
+
+```{r warning=FALSE}
+set.seed(142)   
+wordcloud(names(freq), freq, min.freq=25) 
+```
+
+Plot the 100 most frequently used words.
+
+```{r}
+set.seed(142)   
+wordcloud(names(freq), freq, max.words=100)
+```
+
+
+Colorized version:
+
+```{r}
+set.seed(142)   
+wordcloud(names(freq), freq, min.freq=20, scale=c(5, .1), colors=brewer.pal(6, "Dark2")) 
+```
