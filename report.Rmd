@@ -59,3 +59,24 @@ df |> dplyr::glimpse()
 ```{r}
 df |> summary()
 ```
+
+```{r}
+#presidents <- df[["president"]]|> unique() |>as.list()
+
+
+
+for(i in 1:nrow(df)) {       # for-loop over rows
+  df_i <- df[i, ]
+  name <- df_i$president
+  year <- df_i$year
+  text <- df_i$content
+  file_name <- paste(as.character(year), 
+                     as.character(name), 
+                     sep="-")
+  file_name <- paste(file_name, ".txt", 
+                     sep="")
+  loc <- paste("/home/hamed/Documents/R/MADS-NLP/data/speech_files/", file_name, sep="")
+  write.table(text,loc)
+}  
+  
+```

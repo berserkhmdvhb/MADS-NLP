@@ -594,6 +594,23 @@ pre code {
 ##  Mean   :29.0                      Mean   :1905                     
 ##  3rd Qu.:43.5                      3rd Qu.:1963                     
 ##  Max.   :58.0                      Max.   :2021</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#presidents &lt;- df[[&quot;president&quot;]]|&gt; unique() |&gt;as.list()</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df)) {       <span class="co"># for-loop over rows</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  df_i <span class="ot">&lt;-</span> df[i, ]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> df_i<span class="sc">$</span>president</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">&lt;-</span> df_i<span class="sc">$</span>year</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  text <span class="ot">&lt;-</span> df_i<span class="sc">$</span>content</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  file_name <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">as.character</span>(year), </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">as.character</span>(name), </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sep=</span><span class="st">&quot;-&quot;</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  file_name <span class="ot">&lt;-</span> <span class="fu">paste</span>(file_name, <span class="st">&quot;.txt&quot;</span>, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  loc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;/home/hamed/Documents/R/MADS-NLP/data/speech_files/&quot;</span>, file_name, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(text,loc)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>}  </span></code></pre></div>
 </div>
 </div>
 
