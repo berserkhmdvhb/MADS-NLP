@@ -50,7 +50,7 @@ library(slam)
 # **Introduction**
 
 ## **Describe Dataset**
-The dataset used for this project is president speeches ob.tained from [this link](https://www.presidency.ucsb.edu/documents/presidential-documents-archive-guidebook/inaugural-addresses).
+The dataset used for this project is president speeches obtained from [this link](https://www.presidency.ucsb.edu/documents/presidential-documents-archive-guidebook/inaugural-addresses).
 
 Using the following script in Python, we first created a dataframe of the website's speeches:
 
@@ -154,8 +154,6 @@ In [Preprocessing](#preprocess) section, numerous text mining tasks are implemen
 
 In [Word Frequency](#wordfreq) section, frequency of different terms in documents are analyzed and visualized.
 
-In [Word Frequency](#wordfreq) section, frequency of different terms in documents are analyzed and visualized.
-
 In [Doc Similarity](#docsim), similarity between documents is measured, analyzed, and  visualized.
 
 In [Conclusion](#conclusion), main findings are summarized.
@@ -236,7 +234,7 @@ for (j in seq(docs))
 docs <- tm_map(docs, PlainTextDocument)
 ```
 
-**Remove common word endings**
+## **Remove common word endings**
 Common words ending e.g. “ing”, “es”, “s”
 
 ```{r}
