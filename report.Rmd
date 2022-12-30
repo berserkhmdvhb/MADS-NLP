@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # **Import Libraries**
 
 ```{r message = FALSE, warning = FALSE}
-library(knitr)
+library(rmarkdown)
 library(dplyr)
 library(ggplot2)
 library(broom)
@@ -50,7 +50,7 @@ library(slam)
 # **Introduction**
 
 ## **Describe Dataset**
-The dataset used for this project is president speeches ob.tained from [this link](https://www.presidency.ucsb.edu/documents/presidential-documents-archive-guidebook/inaugural-addresses).
+The dataset used for this project is president speeches obtained from [this link](https://www.presidency.ucsb.edu/documents/presidential-documents-archive-guidebook/inaugural-addresses).
 
 Using the following script in Python, we first created a dataframe of the website's speeches:
 
@@ -154,6 +154,10 @@ In [Preprocessing](#preprocess) section, numerous text mining tasks are implemen
 
 In [Word Frequency](#wordfreq) section, frequency of different terms in documents are analyzed and visualized.
 
+In [Doc Similarity](#docsim), similarity between documents is measured, analyzed, and  visualized.
+
+In [Conclusion](#conclusion), main findings are summarized.
+
 The github repository for this package can be found in this [link](https://github.com/berserkhmdvhb/MADS-NLP)
 
 # **Preprocessing** {#preprocess}
@@ -230,7 +234,7 @@ for (j in seq(docs))
 docs <- tm_map(docs, PlainTextDocument)
 ```
 
-**Remove common word endings**
+## **Remove common word endings**
 Common words ending e.g. “ing”, “es”, “s”
 
 ```{r}
@@ -449,7 +453,7 @@ kfit <- kmeans(d, 4)
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
 
-# **Doc Simlarity**
+# **Doc Simlarity** {#docsim}
 
 //TODO: Perform doc similarity using the [textreuse](https://docs.ropensci.org/textreuse/) library, analyze and visualize reults.
 
@@ -498,3 +502,7 @@ cosine_sim <- tcrossprod_simple_triplet_matrix(dtms[,1], dtms[,2])/sqrt(row_sums
 
 #cosine_sim
 ```
+
+# **Conclusion** {#conclusion}
+
+//TODO: writing
