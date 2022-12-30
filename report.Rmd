@@ -38,7 +38,7 @@ library(cluster)
 library(igraph)
 library(fpc)
 library(magrittr)
-
+library(rmarkdown)
 library(textreuse)
 library(slam)
 
@@ -126,14 +126,14 @@ for(i in 1:nrow(df)) {       # for-loop over rows
                      sep="-")
   file_name <- paste(file_name, ".txt", 
                      sep="")
-  loc <- paste("/home/hamed/Documents/R/MADS-NLP/data/texts/", file_name, sep="")
+  loc <- paste("./data/texts/", file_name, sep="")
   #writeLines(text, loc)
 }  
   
 ```
 
 ```{r}
-loc <- "/home/hamed/Documents/R/MADS-NLP/data/texts"
+loc <- "./data/texts/"
 docs <- tm::VCorpus(DirSource(loc)) 
 summary(docs) 
 ```
@@ -258,6 +258,31 @@ This tells R to treat the preprocessed documents as text documents.
 docs <- tm::tm_map(docs, stripWhitespace)
 writeLines(as.character(docs[1]))
 ```
+```{r}
+nrow(df)
+```
+
+
+```{r}
+#Elnaz
+
+for(i in 1:nrow(df)) {       # for-loop over rows
+  df_i <- df[i, ]
+  name <- df_i$president
+  year <- df_i$year
+  text <- df_i$content
+  file_name <- paste(as.character(year), 
+                     as.character(name), 
+                     sep="-")
+  file_name <- paste(file_name, ".txt", 
+                     sep="")
+  loc <- paste("./data/pre_processed/", file_name, sep="")
+  #writeLines(as.character(docs[[i]]), loc)
+}
+
+
+```
+
 
 ## **Create Doc Term Matrix**
 
@@ -432,7 +457,7 @@ clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 #loc <- "/home/hamed/Documents/R/MADS-NLP/data/texts"
 #docs <- tm::VCorpus(DirSource(loc)) 
 
-loc <- "/home/hamed/Documents/R/MADS-NLP/data/texts"
+loc <- "./data/pre_processed/"#Elnaz
 corpus <- TextReuseCorpus(dir=loc)
 
 
