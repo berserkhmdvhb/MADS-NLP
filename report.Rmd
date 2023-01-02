@@ -41,6 +41,10 @@ library(rmarkdown)
 library(textreuse)
 library(slam)
 
+
+library(htmltools)
+library(plotly)
+
 #packages <- c("tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "knitr", "dplyr", "broom", "janitor", "renv", "purrr")
 #install.packages(packages, dependencies = TRUE)
 
@@ -483,8 +487,6 @@ compare_df_viz <- compare_df[1:30, ]
 
 ```{r}
 
-library(htmltools)
-library(plotly)
 
 fig <- plot_ly(compare_df_viz, x = ~a, y = ~b, z = ~score)
 fig <- fig %>% add_markers()
@@ -508,7 +510,6 @@ cosine_dist_mat
 ```
 ```{r}
 #Najada-- clusters for the results of cosine similarity
-library(cluster)
 d <- dist(t(cosine_dist_mat), method="euclidian")   
 kfit <- kmeans(d, 4)   
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
