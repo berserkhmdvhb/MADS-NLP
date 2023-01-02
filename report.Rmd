@@ -15,7 +15,6 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
 ```
 
 # **Import Libraries**
@@ -113,8 +112,6 @@ In what follows, text files are generated from each row of dataframe and are sto
 
 ```{r}
 #presidents <- df[["president"]]|> unique() |>as.list()
-
-
 
 for(i in 1:nrow(df)) {       # for-loop over rows
   df_i <- df[i, ]
@@ -281,11 +278,10 @@ for(i in 1:nrow(df)) {       # for-loop over rows
   file_name <- paste(file_name, ".txt", 
                      sep="")
   loc <- paste("./data/pre_processed/", file_name, sep="")
-  #writeLines(as.character(docs[[i]]), loc)
+  writeLines(as.character(docs[[i]]), loc)
 }
-
-
 ```
+
 
 
 ## **Create Doc Term Matrix**
@@ -447,6 +443,7 @@ d <- dist(t(dtms), method="euclidian")
 kfit <- kmeans(d, 2)   
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
+
 ```{r}
 d <- dist(t(dtms), method="euclidian")   
 kfit <- kmeans(d, 4)   
@@ -472,6 +469,22 @@ compare_df <- as.data.frame(compare_df,
 #compare_df <- compare_df[order(compare_df$score,decreasing=TRUE)]
 compare_df <- compare_df[order(compare_df$score,decreasing=TRUE),]
 compare_df |> head(20)
+```
+```{r}
+corpus
+writeLines(as.character(corpus[1]))
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
 ```
 
 
