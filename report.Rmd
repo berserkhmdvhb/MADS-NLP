@@ -471,30 +471,30 @@ compare_df <- compare_df[order(compare_df$score,decreasing=TRUE),]
 compare_df |> head(20)
 ```
 ```{r}
+#Najada
 corpus
 writeLines(as.character(corpus[1]))
 ```
 
 ```{r}
-
+#Choosing only the first 30 rows because otherwise the plot becomes unreadable since there are too many points
+compare_df_viz <- compare_df[1:30, ]
 ```
 
 ```{r}
 
+library(htmltools)
+library(plotly)
+
+fig <- plot_ly(compare_df_viz, x = ~a, y = ~b, z = ~score)
+fig <- fig %>% add_markers()
+fig <- fig %>% layout(scene = list(xaxis = list(title = 'a'),
+                     yaxis = list(title = 'b'),
+                     zaxis = list(title = 'score')))
+
+fig
 ```
 
-```{r}
-
-```
-
-
-```{r}
-max(dtms)
-dim(dtms)
-```
-
-
-1
 
 
 
@@ -506,10 +506,18 @@ cosine_dist_mat <- 1 - crossprod_simple_triplet_matrix(dtms)/(sqrt(col_sums(dtms
 
 cosine_dist_mat
 ```
+```{r}
+#Najada-- clusters for the results of cosine similarity
+library(cluster)
+d <- dist(t(cosine_dist_mat), method="euclidian")   
+kfit <- kmeans(d, 4)   
+clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
+```
 
 
 
 ```{r}
+#What are we trying to do here?
 dtms[,1]
 cosine_sim <- tcrossprod_simple_triplet_matrix(dtms[,1], dtms[,2])/sqrt(row_sums(dtms[,2]^2) %*% t(row_sums(dtms[,1]^2)))
 
