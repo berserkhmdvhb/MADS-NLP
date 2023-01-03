@@ -154,7 +154,7 @@ This project is dedicated to investigating text similarity between speeches from
 
 In [Preprocessing](#preprocess) section, numerous text mining tasks are implemented on all the docs.
 
-In [Word Frequency](#wordfreq) section, frequency of different terms in documents are analyzed and visualized.
+In [Term Similarity](#termsim) section, frequency of different terms in documents are analyzed and visualized.
 
 In [Doc Similarity](#docsim), similarity between documents is measured, analyzed, and  visualized.
 
@@ -335,7 +335,7 @@ dtms <- removeSparseTerms(dtm, 0.2) # This makes a matrix that is 20% empty spac
 dtms
 ```
 
-# **Word Frequency** {#wordfreq}
+# **Term Similarity** {#termsim}
 
 ```{r}
 freq <- colSums(as.matrix(dtm))
@@ -377,7 +377,7 @@ head(wf)
 ```
 
 
-## **Plot**
+## **Word Frequency Plot**
 
 
 ```{r}
@@ -388,7 +388,7 @@ p <- ggplot(subset(wf, freq>100), aes(x = reorder(word, -freq), y = freq)) +
 p   
 ```
 
-# **Relationships Between Terms**
+## **Relationships Between Terms**
 
 ```{r}
 tm::findAssocs(dtm, c("government" , "states"), corlimit=0.75)
@@ -399,7 +399,7 @@ tm::findAssocs(dtm, c("government" , "states"), corlimit=0.75)
 findAssocs(dtms, "government", corlimit=0.70) # specifying a correlation limit of 0.95   
 ```
 
-**Word Clouds**
+## **Word Clouds**
 
 Plot words that occur at least 25 times.
 
@@ -418,9 +418,9 @@ dark2 <- brewer.pal(6, "Dark2")
 wordcloud::wordcloud(names(freq), freq, max.words=100, rot.per=0.2, colors=dark2)  
 ```
 
-# **Clustering by Term Similarity**
+## **Clustering by Term Similarity**
 
-## **Hierarchal Clustering**
+### **Hierarchal Clustering**
 
 
 ```{r}
@@ -441,8 +441,9 @@ rect.hclust(fit, k=6, border="red") # draw dendogram with red borders around the
 ```
 
 
-## **K-means Clustering**
+### **K-means Clustering**
 
+**Norm: Euclidean**
 ```{r}
 d <- dist(t(dtms), method="euclidian")   
 kfit <- kmeans(d, 2)   
@@ -455,15 +456,22 @@ kfit <- kmeans(d, 4)
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
 
+
+
+
+**Norm: ???**
+
+TODO: Use other norms to perform K-means
+
 # **Doc Simlarity** {#docsim}
 
 //TODO: Perform doc similarity using the [textreuse](https://docs.ropensci.org/textreuse/) library, analyze and visualize reults.
 
 ```{r}
-#loc <- "/home/hamed/Documents/R/MADS-NLP/data/texts"
+#loc <- "./data/texts"
 #docs <- tm::VCorpus(DirSource(loc)) 
 
-loc <- "./data/pre_processed/"#Elnaz
+loc <- "./data/pre_processed/"
 corpus <- TextReuseCorpus(dir=loc)
 
 
@@ -475,6 +483,7 @@ compare_df <- as.data.frame(compare_df,
 compare_df <- compare_df[order(compare_df$score,decreasing=TRUE),]
 compare_df |> head(3)
 ```
+
 ```{r}
 #Najada
 corpus
@@ -483,11 +492,13 @@ writeLines(as.character(corpus[1]))
 
 
 
-## Similarity Score Plot
+## **Similarity Score Plot**
+
+**Similarity Measure: Jaccard Similarity**
 
 ```{r}
-#Choosing only the first 30 rows because otherwise the plot becomes unreadable since there are too many points
-compare_df_viz <- compare_df[1:100, ]
+#Choosing only the first 50 rows because otherwise the plot becomes unreadable since there are too many points
+compare_df_viz <- compare_df[1:50, ]
 ```
 
 
@@ -515,25 +526,18 @@ fig
 
 
 
+**Similarity Measure: Ratio of Matches**
 
-**Cosine Similarity**
+TODO: construct comparing dataframe and plot3d but using ration of maches as similarity measure
 
 
-```{r}
-cosine_dist_mat <- 1 - crossprod_simple_triplet_matrix(dtms)/(sqrt(col_sums(dtms^2) %*% t(col_sums(dtms^2))))
+## **Extra Material: Distance Matrix**
 
-cosine_dist_mat
-```
+Since the [textreuse](https://docs.ropensci.org/textreuse/) library doesn't output a distance matrix, and instead it provides two columns of documents' names, and their similarity score (computed from Jaccard similarity) in the third document, we implemented the transformation of the dataframe to a distance matrix in the following
 
-Check if there is any na or infinite values in the dataframe:
 
-```{r}
-apply(compare_df,2, function(x) is.na(x) | is.infinite(x)) |> any()
-```
 
-## Clustering Docs
 
-[clustering methods](https://rpubs.com/mrkm_a/ClusteringMethodsWithR)
 
 First we pivot the score dataframe to construct a distance matrix
 
@@ -545,38 +549,25 @@ distance_df <- replace(distance_df, is.na(distance_df), 0)
 distance_mat <- data.matrix(distance_df)
 ```
 
-```{r} 
-#hclust(distance_mat)
-```
 
 
-### K-modes clustering
-
-
-
-
-```{r} 
-cl <- kmodes(compare_df,2)
-plot(compare_df, col=cl$cluster)
-```
+Moreover, the library doesn't provide a function a compute cosine similarity, between two documents, in below we implemented cosine similarity between two documents, and then construct a distance matrix for all documents of the corpus.
 
 
 ```{r}
-#Najada-- clusters for the results of cosine similarity
-d <- dist(t(cosine_dist_mat), method="euclidian")   
-kfit <- kmeans(d, 4)   
-clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
-```
-
-
-
-```{r}
-#What are we trying to do here?
+# compute cosine similarity between two documents
 dtms[,1]
 cosine_sim <- tcrossprod_simple_triplet_matrix(dtms[,1], dtms[,2])/sqrt(row_sums(dtms[,2]^2) %*% t(row_sums(dtms[,1]^2)))
 
-#cosine_sim
 ```
+
+```{r}
+# construct cosine distance matrix
+cosine_dist_mat <- 1 - crossprod_simple_triplet_matrix(dtms)/(sqrt(col_sums(dtms^2) %*% t(col_sums(dtms^2))))
+
+cosine_dist_mat
+```
+
 
 # **Conclusion** {#conclusion}
 
