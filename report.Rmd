@@ -533,13 +533,7 @@ TODO: construct comparing dataframe and plot3d but using ration of maches as sim
 
 ## **Extra Material: Distance Matrix**
 
-Since the [textreuse](https://docs.ropensci.org/textreuse/) library doesn't output a distance matrix, and instead it provides two columns of documents' names, and their similarity score (computed from Jaccard similarity) in the third document, we implemented the transformation of the dataframe to a distance matrix in the following
-
-
-
-
-
-First we pivot the score dataframe to construct a distance matrix
+Since the [textreuse](https://docs.ropensci.org/textreuse/) library doesn't output a distance matrix, and instead we can only have a dataframe with three columns, two of which contain documents' names, and the third one contain their similarity score (computed from Jaccard similarity), we implemented the transformation of the mentioned dataframe to a distance matrix. To achieve this, we pivot the score dataframe in the following manner:
 
 ```{r} 
 distance_df <- compare_df |> pivot_wider(names_from=a, values_from=score)
