@@ -534,6 +534,8 @@ apply(compare_df,2, function(x) is.na(x) | is.infinite(x)) |> any()
 
 
 ## K-modes clustering
+
+[clustering methods](https://rpubs.com/mrkm_a/ClusteringMethodsWithR)
 ```{r} 
 cl <- kmodes(compare_df,2)
 plot(compare_df, col=cl$cluster)
