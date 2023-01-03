@@ -503,13 +503,12 @@ compare_df_viz$b <- gsub("(?<=[A-Z])[^A-Z]+", "", compare_df_viz$b ,perl = TRUE)
 
 
 ```{r}
-
-
 fig <- plot_ly(compare_df_viz, x = ~a, y = ~b, z = ~score, color=~score, size=~score)
-fig <- fig %>% add_markers()
-fig <- fig %>% layout(scene = list(xaxis = list(title = 'Doc1'),
+fig <- fig |> add_markers()
+fig <- fig |> layout(scene = list(xaxis = list(title = 'Doc1'),
                      yaxis = list(title = 'Doc2'),
-                     zaxis = list(title = 'Similarity Score')))
+                     zaxis = list(title = 'Similarity Score')
+                     ))
 
 fig
 ```
