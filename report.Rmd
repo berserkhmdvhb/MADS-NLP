@@ -545,7 +545,7 @@ distance_mat <- data.matrix(distance_df)
 
 
 
-Moreover, the library doesn't provide a function a compute cosine similarity, between two documents, in below we implemented cosine similarity between two documents, and then construct a distance matrix for all documents of the corpus.
+Moreover, the library doesn't provide a function to compute cosine similarity between any pair of documents of the corpus, in below we implemented computation of cosine similarity between two given documents of the corpus, and then construct a distance matrix for all documents of the corpus.
 
 
 ```{r}
