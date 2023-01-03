@@ -538,7 +538,15 @@ apply(compare_df,2, function(x) is.na(x) | is.infinite(x)) |> any()
 First we pivot the score dataframe to construct a distance matrix
 
 ```{r} 
-distance_mat <- compare_df |> pivot_wider(names_from=a, values_from=score)
+distance_df <- compare_df |> pivot_wider(names_from=a, values_from=score)
+
+distance_df <- replace(distance_df, is.na(distance_df), 0)
+
+distance_mat <- data.matrix(distance_df)
+```
+
+```{r} 
+#hclust(distance_mat)
 ```
 
 
