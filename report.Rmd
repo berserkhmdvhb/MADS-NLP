@@ -463,7 +463,7 @@ clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 
 TODO: Use other norms to perform K-means
 
-# **Doc Simlarity** {#docsim}
+# **Doc Similarity** {#docsim}
 
 For this section, [textreuse](https://docs.ropensci.org/textreuse/) library, is used.
 
