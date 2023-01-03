@@ -44,6 +44,7 @@ library(slam)
 
 library(htmltools)
 library(plotly)
+library(klaR)
 
 #packages <- c("tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "knitr", "dplyr", "broom", "janitor", "renv", "purrr")
 #install.packages(packages, dependencies = TRUE)
@@ -480,10 +481,16 @@ corpus
 writeLines(as.character(corpus[1]))
 ```
 
+
+
+## Similarity Score Plot
+
 ```{r}
 #Choosing only the first 30 rows because otherwise the plot becomes unreadable since there are too many points
 compare_df_viz <- compare_df[1:100, ]
 ```
+
+
 
 
 ```{r}
@@ -518,6 +525,21 @@ cosine_dist_mat <- 1 - crossprod_simple_triplet_matrix(dtms)/(sqrt(col_sums(dtms
 
 cosine_dist_mat
 ```
+
+Check if there is any na or infinite values in the dataframe:
+
+```{r}
+apply(compare_df,2, function(x) is.na(x) | is.infinite(x)) |> any()
+```
+
+
+## K-modes clustering
+```{r} 
+cl <- kmodes(compare_df,2)
+plot(compare_df, col=cl$cluster)
+```
+
+
 ```{r}
 #Najada-- clusters for the results of cosine similarity
 d <- dist(t(cosine_dist_mat), method="euclidian")   
