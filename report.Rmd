@@ -465,7 +465,7 @@ TODO: Use other norms to perform K-means
 
 # **Doc Simlarity** {#docsim}
 
-//TODO: Perform doc similarity using the [textreuse](https://docs.ropensci.org/textreuse/) library, analyze and visualize reults.
+For this section, [textreuse](https://docs.ropensci.org/textreuse/) library, is used.
 
 ```{r}
 #loc <- "./data/texts"
@@ -571,4 +571,4 @@ cosine_dist_mat
 
 # **Conclusion** {#conclusion}
 
-//TODO: writing
+...
