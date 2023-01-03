@@ -45,7 +45,7 @@ library(slam)
 library(htmltools)
 library(plotly)
 library(klaR)
-
+library(tidyr)
 #packages <- c("tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "knitr", "dplyr", "broom", "janitor", "renv", "purrr")
 #install.packages(packages, dependencies = TRUE)
 
@@ -539,9 +539,7 @@ apply(compare_df,2, function(x) is.na(x) | is.infinite(x)) |> any()
 First we pivot the score dataframe to construct a distance matrix
 
 ```{r} 
-distance_mat <- compare_df |> pivot_wider(names_from=c(a,b), values_from=score)
-
-
+distance_mat <- compare_df |> pivot_wider(names_from=a, values_from=score)
 ```
 
 
