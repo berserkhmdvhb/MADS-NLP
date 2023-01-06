@@ -455,13 +455,34 @@ d <- dist(t(dtms), method="euclidian")
 kfit <- kmeans(d, 4)   
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
+**Norm: Manhattan**
+
+```{r}
+d <- dist(t(dtms), method="manhattan")   
+kfit <- kmeans(d, 4)   
+clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
+```
+```{r}
+d <- dist(t(dtms), method="manhattan")   
+kfit <- kmeans(d, 2)   
+clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
+```
+**Norm: Maximum**
 
 
+```{r}
+d <- dist(t(dtms), method="maximum")   
+kfit <- kmeans(d, 4)   
+clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
+```
 
+```{r}
+d <- dist(t(dtms), method="maximum")   
+kfit <- kmeans(d, 2)   
+clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
+```
 
-**Norm: ???**
-
-TODO: Use other norms to perform K-means
+TODO: Use other norms to perform K-means...done(Elnaz)
 
 # **Doc Similarity** {#docsim}
 
@@ -527,6 +548,43 @@ fig
 
 
 **Similarity Measure: Ratio of Matches**
+```{r}
+loc <- "./data/pre_processed/"
+corpus <- TextReuseCorpus(dir=loc)
+
+
+comparisons_rom <- pairwise_compare(corpus, ratio_of_matches)
+compare_df_rom <- pairwise_candidates(comparisons_rom)
+compare_df_rom <- as.data.frame(compare_df_rom, 
+                            col.names = names(compare_df_rom))
+#compare_df <- compare_df[order(compare_df$score,decreasing=TRUE)]
+compare_df_rom <- compare_df_rom[order(compare_df_rom$score,decreasing=TRUE),]
+compare_df_rom |> head(3)
+```
+```{r}
+compare_df_rom_viz <- compare_df_rom[1:50, ]
+```
+
+
+```{r}
+compare_df_rom_viz$a <- gsub("(?<=[A-Z])[^A-Z]+", "", compare_df_rom_viz$a ,perl = TRUE)
+
+compare_df_rom_viz$b <- gsub("(?<=[A-Z])[^A-Z]+", "", compare_df_rom_viz$b ,perl = TRUE)
+```
+
+```{r}
+fig <- plot_ly(compare_df_rom_viz, x = ~a, y = ~b, z = ~score, color=~score, size=~score)
+fig <- fig |> add_markers()
+fig <- fig |> layout(scene = list(xaxis = list(title = 'Doc1'),
+                     yaxis = list(title = 'Doc2'),
+                     zaxis = list(title = 'Similarity Score')
+                     ))
+
+fig
+
+
+
+```
 
 TODO: construct comparing dataframe and plot3d but using ration of maches as similarity measure
 
