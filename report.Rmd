@@ -20,7 +20,6 @@ knitr::opts_chunk$set(echo = TRUE)
 # **Import Libraries**
 
 ```{r message = FALSE, warning = FALSE}
-library(rmarkdown)
 library(dplyr)
 library(ggplot2)
 library(broom)
@@ -42,10 +41,12 @@ library(textreuse)
 library(slam)
 
 
-library(htmltools)
+
 library(plotly)
+library(htmltools)
 library(klaR)
 library(tidyr)
+library(stringr)
 #packages <- c("tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "knitr", "dplyr", "broom", "janitor", "renv", "purrr")
 #install.packages(packages, dependencies = TRUE)
 
@@ -122,14 +123,14 @@ for(i in 1:nrow(df)) {       # for-loop over rows
   df_i <- df[i, ]
   name <- df_i$president
   year <- df_i$year
-  text <- df_i$content
+  text <- df_i$content |> stringr::str_trim()
   file_name <- paste(as.character(year), 
                      as.character(name), 
                      sep="-")
   file_name <- paste(file_name, ".txt", 
                      sep="")
   loc <- paste("./data/texts/", file_name, sep="")
-  #writeLines(text, loc)
+  writeLines(text, loc)
 }  
   
 ```
