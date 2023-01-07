@@ -210,7 +210,7 @@ Again, serving the uniformity purposed we tranform all the uppercase to lowercas
 
 Checking the first document below we see that now the first word of the speech, respectively "Felowcitizens" starts with a lowercase.
 ```{r}
-docs <- tm::tm_map(docs, tolower)   
+docs <- tm::tm_map(docs, tolower)
 docs <- tm::tm_map(docs, PlainTextDocument)
 DocsCopy <- docs
 writeLines(as.character(docs[1])) 
@@ -251,24 +251,48 @@ for (j in seq(docs))
 docs <- tm_map(docs, PlainTextDocument)
 ```
 
-## **Remove common word endings**
-
-We remove common words ending e.g. “ing”, “es”, “s”, which is different called the process of stemming. We do this again using the functions from tm library.
-
-```{r}
-## Note: I did not run this section of code for this particular example.
-docs_st <- tm_map(docs, stemDocument)   
-docs_st <- tm_map(docs_st, PlainTextDocument)
-writeLines(as.character(docs_st[1])) # Check to see if it worked.
-docs <- docs_st
-```
-
 ## **Strip unnecessary white space**
+
+
 
 ```{r}
 docs <- tm_map(docs, stripWhitespace)
 writeLines(as.character(docs[1]))
+
+docs <- tm_map(docs, PlainTextDocument)
 ```
+
+## **Stemming**
+The stemDocument from the tm package performs stemming on the documents. However, it doesn't perform all the needed stemming transformations correctly. To resolve this, first a copy of corpus is stored and then apply the stemDocument
+
+```{r}
+dictCorpus <- docs
+docs <- tm_map(docs, stemDocument)
+writeLines(as.character(docs[1]))
+```
+
+Secondly, stemCompletion can be used from tm to account for the wrong trasnformations and complete the stems by referencing to the copied corpus (also called dictionary). However, the original stemCompletion function replaces empty strings with unsolicited never existed words. To avoid this, we defined a modified version of stemCompletion.
+
+```{r}
+stemCompletion_mod <- function(x, dictionary) {
+   x <- unlist(strsplit(as.character(x), " "))
+   x <- x[x != ""]
+   x <- stemCompletion(x, dictionary=dictionary)
+   x <- paste(x, sep="", collapse=" ")
+   PlainTextDocument(Whitespace(x))
+ }
+
+```
+
+
+
+```{r}
+docs <- lapply(docs, stemCompletion_mod, dictionary=dictCorpus)
+docs <- Corpus(VectorSo1urce(docs))
+writeLines(as.character(docs[1]))
+```
+
+
 
 ## **Type Check**
 
