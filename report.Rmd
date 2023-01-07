@@ -279,7 +279,7 @@ stemCompletion_mod <- function(x, dictionary) {
    x <- x[x != ""]
    x <- stemCompletion(x, dictionary=dictionary)
    x <- paste(x, sep="", collapse=" ")
-   PlainTextDocument(Whitespace(x))
+   PlainTextDocument(stripWhitespace(x))
  }
 
 ```
