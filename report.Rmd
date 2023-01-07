@@ -288,7 +288,7 @@ stemCompletion_mod <- function(x, dictionary) {
 
 ```{r}
 docs <- lapply(docs, stemCompletion_mod, dictionary=dictCorpus)
-docs <- Corpus(VectorSo1urce(docs))
+docs <- Corpus(VectorSource(docs))
 writeLines(as.character(docs[1]))
 ```
 
