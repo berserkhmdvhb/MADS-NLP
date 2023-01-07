@@ -284,15 +284,21 @@ stemCompletion_mod <- function(x, dictionary) {
 
 ```
 
+```{r}
+stemCompletion_mod(docs[[1]], dictCorpus) |> as.character() |> writeLines()
 
+```
 
 ```{r}
 docs <- lapply(docs, stemCompletion_mod, dictionary=dictCorpus)
-docs <- Corpus(VectorSource(docs))
+docs <- as.VCorpus(docs)
+#docs <- tm_map(docs, PlainTextDocument)
 writeLines(as.character(docs[1]))
 ```
 
-
+```{r}
+summary(docs)
+```
 
 ## **Type Check**
 
