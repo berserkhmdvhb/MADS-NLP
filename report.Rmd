@@ -47,18 +47,20 @@ library(htmltools)
 library(klaR)
 library(tidyr)
 library(stringr)
-#packages <- c("tm", "SnowballCC", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "knitr", "dplyr", "broom", "janitor", "renv", "purrr")
-#install.packages(packages, dependencies = TRUE)
-
 ```
 
 # **Introduction**
+
+One of the most important tasks of Natural Language Processing is text similarity. Text Similarity is the process of comparing a piece of text with another and finding the similarity between them. It's basically about determining the degree of closeness of the text. 
+
+For this purpose, we chose a dataset of speeches from american presidents. Using Natural Language processing tools we firstly converted the data to DataFrame. Then we started to preprocess the data, firstly uniforming the documents using by removing punctuation, numbers and transforming it to lowercase. Then we continue with  basic NLP text modifications like removal of stop words, tokenizing, lemmatization.
+
+On the next step we used "tm" library tools in order to find the term similarity and later on we separated each speech into separate documents and used "textresuse" library to measure the document similarity and additionally, we visualized the results each time.
 
 ## **Describe Dataset**
 The dataset used for this project is president speeches obtained from [this link](https://www.presidency.ucsb.edu/documents/presidential-documents-archive-guidebook/inaugural-addresses).
 
 Using the following script in Python, we first created a dataframe of the website's speeches:
-
 
 ```
 import requests
@@ -108,7 +110,10 @@ df <- read.csv("https://raw.githubusercontent.com/berserkhmdvhb/MADS-NLP/main/da
 ```{r}
 df |> dplyr::glimpse()
 ```
+In our datframe, we have 4 columns, X which is the index, president which displays the name of the presidents. Year which shows the year in which the president gave the speech and last one is the content. In the content field we have the content for each speech.
 
+Below we check some details about the dataframe we created.
+It has 59 records. The earliest speech it has dates in 1789 and the latest in 2021.
 
 ```{r}
 df |> summary()
@@ -132,8 +137,8 @@ for(i in 1:nrow(df)) {       # for-loop over rows
   loc <- paste("./data/texts/", file_name, sep="")
   writeLines(text, loc)
 }  
-  
 ```
+
 
 ```{r}
 loc <- "./data/texts/"
@@ -144,7 +149,7 @@ summary(docs)
 ```{r}
 inspect(docs[1])
 ```
-
+Here we check the content of document one which should refer to the speech by Goerge Washington in 1789. We will use the content from this document as a demonstation for the preprocessing part.
 ```{r}
 writeLines(as.character(docs[1]))
 ```
@@ -153,7 +158,7 @@ writeLines(as.character(docs[1]))
 
 This project is dedicated to investigating text similarity between speeches from different presidents of US during various years, starting from 1789 and ending with 2021.
 
-In [Preprocessing](#preprocess) section, numerous text mining tasks are implemented on all the docs.
+In [Preprocessing](#preprocess) section, numerous text mining tasks are implemented on all the documents.
 
 In [Term Similarity](#termsim) section, frequency of different terms in documents are analyzed and visualized.
 
@@ -170,13 +175,16 @@ Most functions used henceforth stems from this package.
 
 ## **Remove punctuation**
 
+The punctuation removal process will help to treat each text equally. For example, the word data and data! are treated equally after the process of removal of punctuations.
+After the removal we print the content of the first document one more time and check the results.
+The sentences are devided by , and are within quotes ,but inside the quotes the punctuation is removed.
 ```{r}
 docs <- tm::tm_map(docs,removePunctuation)   
 writeLines(as.character(docs[1])) 
 ```
 
-
 ## **Remove special characters**
+Secondly, we remove all special characters. For this purpose we use gsub which replaces the special characters dictated by us with space. We check the document one more time.
 
 ```{r}
 for (j in seq(docs)) {
@@ -190,6 +198,7 @@ writeLines(as.character(docs[1]))
 
 ## **Remove numbers**
 
+In this step, in order to make the text more uniform we remove all the numerical forms. For doing so, there exists a function from the tm library.
 ```{r}
 docs <- tm::tm_map(docs, removeNumbers)   
 writeLines(as.character(docs[1])) 
@@ -197,6 +206,9 @@ writeLines(as.character(docs[1]))
 
 ## **Convert to lowercase**
 
+Again, serving the uniformity purposed we tranform all the uppercase to lowercase. Words like Book and book mean the same but when not converted to the lower case those two are represented as two different words in the vector space model (resulting in more dimensions).
+
+Checking the first document below we see that now the first word of the speech, respectively "Felowcitizens" starts with a lowercase.
 ```{r}
 docs <- tm::tm_map(docs, tolower)   
 docs <- tm::tm_map(docs, PlainTextDocument)
@@ -205,6 +217,8 @@ writeLines(as.character(docs[1]))
 ```
 
 ## **Remove "stopwords"** 
+
+Stop words are available in abundance in any human language. By removing these words, we remove the low-level information from our text in order to give more focus to the important information.
 
 ```{r}
 # For a list of the stopwords, see:   
@@ -225,7 +239,7 @@ writeLines(as.character(docs[1]))
 ## **Retain compouned words** 
 
 
-If you wish to preserve a concept is only apparent as a collection of two or more words, then you can combine them or reduce them to a meaningful acronym before you begin the analysis. Here, I am using examples that are particular to qualitative data analysis.
+If you wish to preserve a concept which is only apparent as a collection of two or more words, then you can combine them or reduce them to a meaningful acronym before you begin the analysis. Here, we are using examples that are particular to qualitative data analysis.
 
 ```{r}
 for (j in seq(docs))
@@ -238,17 +252,18 @@ docs <- tm_map(docs, PlainTextDocument)
 ```
 
 ## **Remove common word endings**
-Common words ending e.g. “ing”, “es”, “s”
+
+We remove common words ending e.g. “ing”, “es”, “s”, which is different called the process of stemming. We do this again using the functions from tm library.
 
 ```{r}
 ## Note: I did not run this section of code for this particular example.
 docs_st <- tm_map(docs, stemDocument)   
 docs_st <- tm_map(docs_st, PlainTextDocument)
 writeLines(as.character(docs_st[1])) # Check to see if it worked.
-# docs <- docs_st
+docs <- docs_st
 ```
 
-## **Strip unnecesary whitespace**
+## **Strip unnecessary white space**
 
 ```{r}
 docs <- tm_map(docs, stripWhitespace)
@@ -268,7 +283,7 @@ writeLines(as.character(docs[1]))
 ```{r}
 nrow(df)
 ```
-
+In the below piece of code, we save the preprocessed documents into another folder because later on we need to reuse the results to measure the document similarity using another library which is textreuse.
 
 ```{r}
 #Elnaz
@@ -292,7 +307,7 @@ for(i in 1:nrow(df)) {       # for-loop over rows
 
 ## **Create Doc Term Matrix**
 
-
+A document-term matrix or term-document matrix is a mathematical matrix that describes the frequency of terms that occur in a collection of documents. In a document-term matrix, rows correspond to documents in the collection and columns correspond to terms.
 
 ```{r}
 dtm <- tm::DocumentTermMatrix(docs)   
@@ -330,6 +345,7 @@ Store the matrix to memory
 
 ## **Remove sparse words** {#removesparse}
 
+We remove sparse words putting a 20% sparsity thresshold, and when we check our results, the sparsity for our matrix is 12%. 
 ```{r}
 #  Start by removing sparse terms:   
 dtms <- removeSparseTerms(dtm, 0.2) # This makes a matrix that is 20% empty space, maximum.   
@@ -338,17 +354,21 @@ dtms
 
 # **Term Similarity** {#termsim}
 
+We save the matrix as the frequency of the terms.
+
 ```{r}
 freq <- colSums(as.matrix(dtm))
 ```
 
 Least frequent
 
+We print the head of the frequency table. Our table is increasing. So the ones appearing at the head have 1 frequency therefore the smallest possible number and it increases until at the tail we have the most frequent words.
+
 ```{r}
 head(table(freq), 20) 
 ```
 
- The top number is the frequency with which words appear and the bottom number reflects how many words appear that frequently.
+The top number is the frequency with which words appear and the bottom number reflects how many words appear that frequently.
 
 Most frequent:
 
@@ -356,17 +376,15 @@ Most frequent:
 tail(table(freq), 40) 
 ```
 
-
-
-View a table of the terms we selected when we removed sparse terms in subsection [Remove sparse words](#removesparse)
+Below we show a table of the terms we selected when we removed sparse terms in subsection [Remove sparse words](#removesparse)
+We print the 20 first most frequent terms. 
 
 ```{r}
 freq <- sort(colSums(as.matrix(dtm)), decreasing=TRUE)     
 freq |> head(20)
 ```
 
-
-Identify all terms that appear frequently
+Below we identify all terms that appear frequently.
 ```{r}
 findFreqTerms(dtm, lowfreq=50) |> head(20)
 ```
@@ -380,9 +398,10 @@ head(wf)
 
 ## **Word Frequency Plot**
 
+Now it is time to visualize our results to better understand and perceive them. Using ggplot we show a bar plot with words that appear more than 200 times. In the x-axis we can see clearly which are these words. They are presented in the root form since we applied stemming.
 
 ```{r}
-p <- ggplot(subset(wf, freq>100), aes(x = reorder(word, -freq), y = freq)) + 
+p <- ggplot(subset(wf, freq>200), aes(x = reorder(word, -freq), y = freq)) + 
   geom_bar(stat = "identity") + 
   theme(axis.text.x=element_text(angle=45, hjust=1))
 
@@ -390,6 +409,8 @@ p
 ```
 
 ## **Relationships Between Terms**
+
+Here we find the correlations between the terms as if 2 words are always appeared together in a text then the correlation between them would be 1. The correlation limit is considered as 0.75:
 
 ```{r}
 tm::findAssocs(dtm, c("government" , "states"), corlimit=0.75)
@@ -406,6 +427,7 @@ Plot words that occur at least 25 times.
 
 Colorized version:
 
+In this part the word clouds are visualized. The bigger the size of the word in the word cloud, the more frequent it is. Also words are clustered based one frequency with different colors.
 ```{r}
 set.seed(142)   
 wordcloud::wordcloud(names(freq), freq, min.freq=20, scale=c(5, .1), colors=brewer.pal(6, "Dark2")) 
@@ -413,6 +435,7 @@ wordcloud::wordcloud(names(freq), freq, min.freq=20, scale=c(5, .1), colors=brew
 
 Plot words that occur at least 100 times.
 
+We use the same way of plotting, therefore the size and color stand for the same reasons.
 ```{r}
 set.seed(142)   
 dark2 <- brewer.pal(6, "Dark2")   
@@ -423,16 +446,19 @@ wordcloud::wordcloud(names(freq), freq, max.words=100, rot.per=0.2, colors=dark2
 
 ### **Hierarchal Clustering**
 
+To do the Hierarchal clustering, first we should find the distance between words and for this purpose we used Euclidian norm and then clustered based on those distances.
 
 ```{r}
 d <- dist(t(dtms), method="euclidian")   
 fit <- hclust(d=d, method="complete")   # for a different look try substituting: method="ward.D"
 fit   
 ```
+Dendrograms are the plots used to visualize the hierarchal clustering. If the height of the line joining 2 terms is smaller, it shows that they are more similar, whereas Higher lines in dendrograms indicate larger distance between the clusters.
 
 ```{r}
 plot(fit, hang=-1)
 ```
+And here the red boxes show the 6 clusters:
 
 ```{r}
 plot.new()
@@ -444,9 +470,13 @@ rect.hclust(fit, k=6, border="red") # draw dendogram with red borders around the
 
 ### **K-means Clustering**
 
+To do the k-means clustering, first we should find the distance between words and for this purpose we used 3 different norms("Euclidian", "Manhattan","Maximum") and the clustered based on them.
+
+In what follows, there are clusplots for K-Means clustering with different norms. In clusplots, each ellipse indicate a Principal Component. At the bottom of each plot we can see the percentage of the point variability explained by these components.
+
 **Norm: Euclidean**
 ```{r}
-d <- dist(t(dtms), method="euclidian")   
+d <- dist(t(dtms), method="euclidean")   
 kfit <- kmeans(d, 2)   
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
@@ -456,6 +486,7 @@ d <- dist(t(dtms), method="euclidian")
 kfit <- kmeans(d, 4)   
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
+
 **Norm: Manhattan**
 
 ```{r}
@@ -463,11 +494,13 @@ d <- dist(t(dtms), method="manhattan")
 kfit <- kmeans(d, 4)   
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
+
 ```{r}
 d <- dist(t(dtms), method="manhattan")   
 kfit <- kmeans(d, 2)   
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
+
 **Norm: Maximum**
 
 
@@ -485,10 +518,12 @@ clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 
 TODO: Use other norms to perform K-means...done(Elnaz)
 
+
 # **Doc Similarity** {#docsim}
 
 For this section, [textreuse](https://docs.ropensci.org/textreuse/) library, is used.
 
+We compare documents in a pairwise manner and use jaccard similarity to measure the similarity between them. After doing so, a score is calculated for each pair as shown in the results:
 ```{r}
 #loc <- "./data/texts"
 #docs <- tm::VCorpus(DirSource(loc)) 
@@ -513,17 +548,18 @@ writeLines(as.character(corpus[1]))
 ```
 
 
-
 ## **Similarity Score Plot**
 
 **Similarity Measure: Jaccard Similarity**
 
+Now our goal is to visualize the similarities. For this purpose, we build a 3D plot which in x-axis has one speech and y-axis has another and on z-axis the scores. In order to visualize in a clean way, we used only the first 30 ones which are the most similar ones and we used only the initials on the presidents. Taken into account that these speeches were made from some of the most important and well-known American Presidents, the plot does not lose its explanatory purposes. 
+
+Each score is presented with a ball and the colors represent the clusters. The pairs with similar scores are painted the same color.
+
 ```{r}
 #Choosing only the first 50 rows because otherwise the plot becomes unreadable since there are too many points
-compare_df_viz <- compare_df[1:50, ]
+compare_df_viz <- compare_df[1:30, ]
 ```
-
-
 
 
 ```{r}
@@ -532,7 +568,6 @@ compare_df_viz$a <- gsub("(?<=[A-Z])[^A-Z]+", "", compare_df_viz$a ,perl = TRUE)
 
 compare_df_viz$b <- gsub("(?<=[A-Z])[^A-Z]+", "", compare_df_viz$b ,perl = TRUE)
 ```
-
 
 
 ```{r}
@@ -544,11 +579,17 @@ fig <- fig |> layout(scene = list(xaxis = list(title = 'Doc1'),
                      ))
 
 fig
+
 ```
 
 
 
 **Similarity Measure: Ratio of Matches**
+
+Here we use another similarity measure. The first one was based on Jaccard Similarity and this one is based in Ratio of matches.
+The method is the same, but the results are slightly different. Here we have higher similarity measures. 
+
+For this reason, this time we plot 50 most similar cases and with smaller ball size.
 ```{r}
 loc <- "./data/pre_processed/"
 corpus <- TextReuseCorpus(dir=loc)
@@ -587,7 +628,7 @@ fig
 
 ```
 
-TODO: construct comparing dataframe and plot3d but using ration of maches as similarity measure
+
 
 
 ## **Extra Material: Distance Matrix**
@@ -624,4 +665,7 @@ cosine_dist_mat
 
 # **Conclusion** {#conclusion}
 
-...
+Firstly, it is worth mentioning our understanding behind the most used terms. 
+As shown above, the first most frequent word was "WILL". We believe, from our general knowledge as well, that this is a significant word in politician speeches. Politicians make promises, and when one promises he/she usually uses the future tense. We also notice that words like: Govern which is the stem for government, state and nation are frequently used. Again these are typical words from a state leader and we also expected them to be used frequently.
+
+Secondly, regarding the document similarity we used two different measurement methods: respectively Jaccard Similarity and Ratio of Matches. They both presented low scores as the result, but at least for the first ranked pairs the results from Ratio of Matches are twice as high in comparison with the first method. //
