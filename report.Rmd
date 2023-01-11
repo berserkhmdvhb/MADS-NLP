@@ -486,7 +486,7 @@ wordcloud::wordcloud(names(freq), freq, max.words=100, rot.per=0.2, colors=dark2
 
 ### **Hierarchal Clustering**
 
-To do the Hierarchal clustering, first we should find the distance between words and for this purpose we used Euclidian norm and then clustered based on those distances.
+To do the Hierarchical clustering, first we should find the distance between words and for this purpose we used Euclidean norm and then clustered based on those distances.
 
 ```{r}
 d <- dist(t(dtms), method="euclidian")   
@@ -565,10 +565,10 @@ For this section, [textreuse](https://docs.ropensci.org/textreuse/) library, is 
 
 For finding the similarity score, we are using textreuse library. There are a set of functions in this library which take two sets or bag of words and measure their similarity or dissimilarity.
 They are: 
-jaccard_similarity(a, b)
-jaccard_dissimilarity(a, b)
-jaccard_bag_similarity(a, b)
-ratio_of_matches(a, b)
+- jaccard_similarity(a, b)
+- jaccard_dissimilarity(a, b)
+- jaccard_bag_similarity(a, b)
+- ratio_of_matches(a, b)
 
 For this project we are using Jaccard Similarity and Ratio of matches. Let's describe them and look at the results more closely.
 
