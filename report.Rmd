@@ -317,7 +317,7 @@ This tells R to treat the preprocessed documents as text documents.
 
 
 ```{r}
-docs <- tm::tm_map(docs, stripWhitespace)
+docs <- tm::tm_map(docs, PlainTextDocument)
 writeLines(as.character(docs[1]))
 ```
 ```{r}
@@ -556,8 +556,9 @@ kfit <- kmeans(d, 2)
 clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
 
-TODO: Use other norms to perform K-means...done(Elnaz)
 
+Evidenced by the results from k-means, in most of the norms, the component having the most effectiveness in explaining the document term matrix, contain the following terms:
+{will, power, government, states, nation, people} 
 
 # **Doc Similarity** {#docsim}
 
@@ -565,6 +566,7 @@ For this section, [textreuse](https://docs.ropensci.org/textreuse/) library, is 
 
 For finding the similarity score, we are using textreuse library. There are a set of functions in this library which take two sets or bag of words and measure their similarity or dissimilarity.
 They are: 
+
 - jaccard_similarity(a, b)
 - jaccard_dissimilarity(a, b)
 - jaccard_bag_similarity(a, b)
@@ -648,6 +650,7 @@ Here we use another similarity measure. The first one was based on Jaccard Simil
 The method is the same, but the results are slightly different. Here we have higher similarity measures. 
 
 For this reason, this time we plot 50 most similar cases and with smaller ball size.
+
 ```{r}
 loc <- "./data/pre_processed/"
 corpus <- TextReuseCorpus(dir=loc)
@@ -686,6 +689,17 @@ fig
 
 ```
 
+Evidenced by the plot, based on the Jaccard similarity, the top 6 most similar documents are the following pairs:
+
+- ("1801-Thomas Jefferson", "1845-James K. Polk")
+- ("1789-George Washington", "1941-Franklin D. Roosevelt")
+- ("1797-1797-John Adams", "1825-John Quincy Adams")
+- ("1857-James Buchanan", "1973-Richard Nixon")
+- ("1897-William McKinley", "1973-Richard Nixon")
+- ("2001-George W. Bush", "2001-George W. Bush")
+
+The sixth item matches intuition, as both of its documents are from 
+the same president, "George W. Bush".
 
 
 
