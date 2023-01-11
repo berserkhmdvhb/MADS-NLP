@@ -553,6 +553,22 @@ TODO: Use other norms to perform K-means...done(Elnaz)
 
 For this section, [textreuse](https://docs.ropensci.org/textreuse/) library, is used.
 
+For finding the similarity score, we are using textreuse library. There are a set of functions in this library which take two sets or bag of words and measure their similarity or dissimilarity.
+They are: 
+jaccard_similarity(a, b)
+jaccard_dissimilarity(a, b)
+jaccard_bag_similarity(a, b)
+ratio_of_matches(a, b)
+
+For this project we are using Jaccard Similarity and Ratio of matches. Let's describe them and look at the results more closely.
+
+The Jaccard measurements of similarity for two sets is provided by the function jaccard similarity. The coefficients will range from 0 to 1. The greater the number for the similarity coefficient, the more similar the two sets are to one another. 
+
+$$J(A, B) = | A \cap B | / |A \cup B|$$
+
+The ratio between the number of items in b that are also in a is determined by the function ratio of matches. The directionality of this similarity metric should be noted; it quantifies how much b borrows from a while omitting any information regarding how much a borrows from b.
+
+
 We compare documents in a pairwise manner and use jaccard similarity to measure the similarity between them. After doing so, a score is calculated for each pair as shown in the results:
 ```{r}
 #loc <- "./data/texts"
@@ -576,6 +592,8 @@ compare_df |> head(3)
 corpus
 writeLines(as.character(corpus[1]))
 ```
+
+
 
 
 ## **Similarity Score Plot**
