@@ -486,6 +486,9 @@ wordcloud::wordcloud(names(freq), freq, max.words=100, rot.per=0.2, colors=dark2
 
 ### **Hierarchal Clustering**
 
+The aim to do a Hierarchal Clustering is to find the hierarchical decomposition of the data based on group similarities. It is a powerful clustering technique because it helps to see how different sub-clusters relate to each other, and how far apart data points are.
+
+
 To do the Hierarchical clustering, first we should find the distance between words and for this purpose we used Euclidean norm and then clustered based on those distances.
 
 ```{r}
@@ -493,11 +496,19 @@ d <- dist(t(dtms), method="euclidian")
 fit <- hclust(d=d, method="complete")   # for a different look try substituting: method="ward.D"
 fit   
 ```
-Dendrograms are the plots used to visualize the hierarchal clustering. If the height of the line joining 2 terms is smaller, it shows that they are more similar, whereas Higher lines in dendrograms indicate larger distance between the clusters.
+Dendrograms are the plots used to visualize the hierarchal clustering. Vertical direction (y-axis) in it represents the distance between clusters in some metric such that higher lines in dendrograms indicate larger distance between the clusters. The number of clusters in Dandrograms depends on the cut(a horizontal line) that we choose.
 
 ```{r}
 plot(fit, hang=-1)
 ```
+As we can see in the plot above:
+
+- At first  "called" and "place" are combined into one cluster, say cluster 1, since they were the closest in distance followed by "manifest" and "purpose", say cluster 2. After that other clusters were merged with these two clusters. At last all the clusters are merged into a single cluster and this is where the clustering process stops.
+
+- "state" and "government" are equally distant from "will" because the former 2 terms are in a cluster before either of them joins "will".
+
+- If cut=100 is chosen then we will have 3 clusters.
+
 And here the red boxes show the 6 clusters:
 
 ```{r}
@@ -509,6 +520,8 @@ rect.hclust(fit, k=6, border="red") # draw dendogram with red borders around the
 
 
 ### **K-means Clustering**
+
+K-Means Clustering takes data points as input and groups them into k clusters. The result would be a model that takes a data sample as input and returns the cluster that the new data point belongs to.
 
 To do the k-means clustering, first we should find the distance between words and for this purpose we used 3 different norms("Euclidian", "Manhattan","Maximum") and the clustered based on them.
 
