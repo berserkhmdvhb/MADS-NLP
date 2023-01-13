@@ -17,7 +17,16 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# **Import Libraries**
+# **Libraries**
+
+The only external packaged used for this project is the [icons](https://github.com/mitchelloharawild/icons), which can be installed with the following command:
+
+```{r message = FALSE, warning = FALSE}
+# install.packages("remotes")
+#remotes::install_github("mitchelloharawild/icons")
+```
+
+The internal libraries are loaded in the following:
 
 ```{r message = FALSE, warning = FALSE}
 library(dplyr)
@@ -47,17 +56,36 @@ library(htmltools)
 library(klaR)
 library(tidyr)
 library(stringr)
+
+library(icons)
 ```
+
+To install the packages required for this project, the `renv.lock` file is provided the project's  [Github repository](https://github.com/berserkhmdvhb/MADS-NLP)
+```{r icon-chunk, echo=FALSE}
+icons::fontawesome("github", style = "brands")  # equivalent to icons::fontawesome$github$rocket
+```
+.
 
 # **Introduction**
 
-One of the most important tasks of Natural Language Processing is text similarity. Text Similarity is the process of comparing a piece of text with another and finding the similarity between them. It's basically about determining the degree of closeness of the text. 
+One of the most important tasks of Natural Language Processing is text similarity. Text similarity is the process of comparing a piece of text with another and measuring the similarity between them. It's basically about determining the degree of closeness of the text. 
 
-For this purpose, we chose a dataset of speeches from american presidents. Using Natural Language processing tools we firstly converted the data to DataFrame. Then we started to preprocess the data, firstly uniforming the documents using by removing punctuation, numbers and transforming it to lowercase. Then we continue with  basic NLP text modifications like removal of stop words, tokenizing, lemmatization.
+For this purpose, we chose a dataset of speeches from American presidents during various years, starting from 1789 and ending with 2021.
+Numerous text mining tasks are implemented on all the documents. As explained in In [Preprocessing](#preprocess) section, after converting the data to dataframe using the ["tm"](https://www.rdocumentation.org/packages/tm/versions/0.7-10) library that contains various natural language processing tools, we constructed a corpus from all the documents and started to preprocess the data, i.e., firstly uniforming the documents by removing punctuation, numbers and transforming them to lowercase. Then we continue with basic NLP text modifications like removal of stop words and whitespaces, tokenizing, and lemmatization. As last steps of preprocessing, stemming and completions of stems are performed
+On the next step, the document term matrix is constructed from the corpus of processed documents. 
 
-On the next step we used "tm" library tools in order to find the term similarity and later on we separated each speech into separate documents and used "textresuse" library to measure the document similarity and additionally, we visualized the results each time.
+As explained in [Term Similarity](#termsim) section, using the term matrix, frequency of terms are extracted so as to analyze the term similarity.
 
-## **Describe Dataset**
+In [Doc Similarity](#docsim) section, we separated each speech into separate documents and used ["textresuse"](https://docs.ropensci.org/textreuse/) library to measure the document similarity and additionally, we visualized the results each time.
+
+In [Conclusion](#conclusion), main findings are summarized.
+
+The github repository for this project can be found in this [link](https://github.com/berserkhmdvhb/MADS-NLP)
+```{r icon-chunk, echo=FALSE}
+icons::fontawesome("github", style = "brands")  # equivalent to icons::fontawesome$github$rocket
+```
+
+# **Describe Dataset**
 The dataset used for this project is president speeches obtained from [this link](https://www.presidency.ucsb.edu/documents/presidential-documents-archive-guidebook/inaugural-addresses).
 
 Using the following script in Python, we first created a dataframe of the website's speeches:
@@ -149,24 +177,13 @@ summary(docs)
 ```{r}
 inspect(docs[1])
 ```
-Here we check the content of document one which should refer to the speech by Goerge Washington in 1789. We will use the content from this document as a demonstation for the preprocessing part.
+
+Here we check the content of document one which should refer to the speech by Goerge Washington in 1789. We will use the content from this document as a demonstration for the preprocessing part.
+
 ```{r}
 writeLines(as.character(docs[1]))
 ```
 
-## **Goal and Procedure**
-
-This project is dedicated to investigating text similarity between speeches from different presidents of US during various years, starting from 1789 and ending with 2021.
-
-In [Preprocessing](#preprocess) section, numerous text mining tasks are implemented on all the documents.
-
-In [Term Similarity](#termsim) section, frequency of different terms in documents are analyzed and visualized.
-
-In [Doc Similarity](#docsim), similarity between documents is measured, analyzed, and  visualized.
-
-In [Conclusion](#conclusion), main findings are summarized.
-
-The github repository for this package can be found in this [link](https://github.com/berserkhmdvhb/MADS-NLP)
 
 # **Preprocessing** {#preprocess}
 
@@ -175,9 +192,10 @@ Most functions used henceforth originate from this package.
 
 ## **Remove punctuation**
 
-The punctuation removal process will help to treat each text equally. For example, the word data and data! are treated equally after the process of removal of punctuations.
-After the removal we print the content of the first document one more time and check the results.
+The punctuation removal process will help to treat each text equally. For example, the word "data" and "data!" are treated equally after the process of removal of punctuations.
+After the removal, we print the content of the first document one more time and check the results.
 The sentences are divided by "," and are within quotes, but inside the quotes the punctuation is removed.
+
 ```{r}
 docs <- tm::tm_map(docs,removePunctuation)   
 writeLines(as.character(docs[1])) 
@@ -185,7 +203,7 @@ writeLines(as.character(docs[1]))
 
 ## **Remove special characters**
 
-Secondly, we remove all special characters. For this purpose we use gsub which replaces the special characters dictated by us with space. We check the document one more time.
+Secondly, we remove all special characters. For this purpose we use `gsub` which replaces the special characters dictated by us with space.
 
 ```{r}
 for (j in seq(docs)) {
@@ -199,7 +217,7 @@ writeLines(as.character(docs[1]))
 
 ## **Remove numbers**
 
-In this step, in order to make the text more uniform, we remove all the numerical forms. For doing so, there exists a function from the tm library, called removeNumbers that will do this.
+In this step, in order to make the text more uniform, we remove all the numerical forms. For doing so, there exists a function from the tm library, called `removeNumbers` that will do this.
 
 ```{r}
 docs <- tm::tm_map(docs, removeNumbers)   
@@ -243,7 +261,7 @@ writeLines(as.character(docs[1]))
 ## **Retain compouned words** 
 
 
-If you wish to preserve a concept which is only apparent as a collection of two or more words, then you can combine them or reduce them to a meaningful acronym before you begin the analysis. Here, we are using examples that are particular to qualitative data analysis.
+If you wish to preserve a concept which is only available as a collection of two or more words, then you can combine them or reduce them to a meaningful acronym before you begin the analysis. Here, we are using examples that are particular to qualitative data analysis.
 
 ```{r}
 for (j in seq(docs))
@@ -268,10 +286,10 @@ docs <- tm_map(docs, PlainTextDocument)
 
 ## **Stemming**
 
-The `stemDocument` from the tm package performs stemming on the documents. However, after the stemming is done, we have some words that are not complete words after being stemmed.
-For instance, all words that are constructed from "age", e.g., "aging", "ages", etc. will be transformed to "ag" after stemming.
+The `stemDocument` from the tm package performs stemming on the documents. However, after the stemming is done, we have some words that are not complete words.
+For instance, all words that are constructed from the word "age", e.g., "aging", "ages", etc, will be transformed to "ag" after stemming.
 As another instance, "people" will transform to "peopl".
-In following, the reulst manifest the mentioned issue:
+In following, the results display the mentioned issue:
 
 ```{r}
 dictCorpus <- docs
@@ -280,8 +298,8 @@ writeLines(as.character(docs[1]))
 ```
 
 As these words do not have meaning, they would lose our touch with reality during later analyzing steps (e.g., when analyzing word frequency), as the results would be unknown words.
-To resolve this, the `stemCompletion` can be used from the tm package. While `stemDocument` is designed to be mapped on the whole corpus, and hence all its containing documents, the `stemCompletion` is designed to be only implemented on a given word. As library doesn't provide a version of `stemCompletion` applicable to the whole corpus, we have manually implemented it on all the documents inside the corpus using the `sapply` function. Note that the `stemCompletion` performs the completion of words by referencing to a source corpus. To provide this, the corpus we had is stored before stemming, the copied corpus (also called dictionary) is stored in `dictCorpus`, and then it is fed to the `stemCompletion` later.
-As the `stemCompletion` has another drawback, which is replacing  empty strings with unsolicited never existed words, we avoided this by defining a modified version of `stemCompletion` that avoids this behavior.
+To resolve this issue, the `stemCompletion` can be used from the tm package. While `stemDocument` is designed to be mapped on the whole corpus, and hence on all its containing documents, the `stemCompletion` is designed to be only implemented on a given word. As the library doesn't provide a version of `stemCompletion` applicable to the whole corpus, we have manually implemented it on all the documents inside the corpus using the `sapply` function. Note that the `stemCompletion` performs the completion of words by referencing to a source corpus. To provide this, the corpus we had before stemming is stored in `dictCorpus`, and this copied corpus (which now serves as a now called dictionary), is then fed to the `stemCompletion` later.
+The `stemCompletion` function has another drawback, which is replacing empty strings with unsolicited never existed words. We avoided this by defining a modified version of `stemCompletion` that avoids this behavior.
 
 ```{r}
 stemCompletion_mod <- function(x, dictionary) {
@@ -306,14 +324,14 @@ writeLines(as.character(docs[1]))
 ```
 
 Evidenced by the stemmed and then stem-completed documents, we are provided with a document that has been stemmed, yet contains meaningful and compelete words, as expected.
+
 ```{r}
 summary(docs)
 ```
 
 ## **Type Check**
 
-Be sure to use the following script once you have completed preprocessing.
-This tells R to treat the preprocessed documents as text documents.
+To ensure that R treats the preprocessed documents as text documents, the `PlainTextDocument` function is used to generated plain text documents.
 
 
 ```{r}
@@ -323,11 +341,10 @@ writeLines(as.character(docs[1]))
 ```{r}
 nrow(df)
 ```
-In the below piece of code, we save the preprocessed documents into another folder because later on we need to reuse the results to measure the document similarity using another library which is textreuse.
+
+In the following piece of code, we save the preprocessed documents into another folder because later on we need to reuse the results to measure the document similarity using another library which is textreuse.
 
 ```{r}
-#Elnaz
-
 for(i in 1:nrow(df)) {       # for-loop over rows
   df_i <- df[i, ]
   name <- df_i$president
@@ -385,7 +402,8 @@ Store the matrix to memory
 
 ## **Remove sparse words** {#removesparse}
 
-We remove sparse words putting a 20% sparsity thresshold, and when we check our results, the sparsity for our matrix is 12%. 
+We remove sparse words putting a 20% sparsity threshold, and when we check our results, the sparsity for our matrix is 12%. 
+
 ```{r}
 #  Start by removing sparse terms:   
 dtms <- removeSparseTerms(dtm, 0.2) # This makes a matrix that is 20% empty space, maximum.   
@@ -400,9 +418,7 @@ We save the matrix as the frequency of the terms.
 freq <- colSums(as.matrix(dtm))
 ```
 
-Least frequent
-
-We print the head of the frequency table. Our table is increasing. So the ones appearing at the head have 1 frequency therefore the smallest possible number and it increases until at the tail we have the most frequent words.
+We print the head of the frequency table. Our table is increasing. So the ones appearing at the head have 1 frequency, hence the smallest possible number, and it increases until at the tail we have the most frequent words.
 
 ```{r}
 head(table(freq), 20) 
@@ -410,13 +426,12 @@ head(table(freq), 20)
 
 The top number is the frequency with which words appear and the bottom number reflects how many words appear that frequently.
 
-Most frequent:
 
 ```{r}
 tail(table(freq), 40) 
 ```
 
-Below we show a table of the terms we selected when we removed sparse terms in subsection [Remove sparse words](#removesparse)
+Below we show a table of the terms we selected when we removed sparse terms in the subsection [Remove sparse words](#removesparse)
 We print the 20 first most frequent terms. 
 
 ```{r}
@@ -425,9 +440,11 @@ freq |> head(20)
 ```
 
 Below we identify all terms that appear frequently.
+
 ```{r}
 findFreqTerms(dtm, lowfreq=50) |> head(20)
 ```
+
 Another approach to perform the same task:
 
 ```{r}
@@ -438,7 +455,7 @@ head(wf)
 
 ## **Word Frequency Plot**
 
-Now it is time to visualize our results to better understand and perceive them. Using ggplot we show a bar plot with words that appear more than 200 times. In the x-axis we can see clearly which are these words. They are presented in the root form since we applied stemming.
+Now it is time to visualize our results to better understand and perceive them. Using ggplot we show a bar plot with words that appear more than 200 times. In the x-axis, we can see clearly which are these words. 
 
 ```{r}
 p <- ggplot(subset(wf, freq>200), aes(x = reorder(word, -freq), y = freq)) + 
@@ -450,7 +467,7 @@ p
 
 ## **Relationships Between Terms**
 
-Here we find the correlations between the terms as if 2 words are always appeared together in a text then the correlation between them would be 1. The correlation limit is considered as 0.75:
+Here we find the correlations between the terms as if two words are always appeared together in a text then the correlation between them would be 1. The correlation limit is considered as 0.75:
 
 ```{r}
 tm::findAssocs(dtm, c("government" , "states"), corlimit=0.75)
@@ -465,17 +482,18 @@ findAssocs(dtms, "government", corlimit=0.70) # specifying a correlation limit o
 
 Plot words that occur at least 25 times.
 
-Colorized version:
-
 In this part the word clouds are visualized. The bigger the size of the word in the word cloud, the more frequent it is. Also words are clustered based one frequency with different colors.
+
+In the following word clouds words that occur at least 25 times are visualized. 
+
 ```{r}
 set.seed(142)   
 wordcloud::wordcloud(names(freq), freq, min.freq=20, scale=c(5, .1), colors=brewer.pal(6, "Dark2")) 
 ```
 
-Plot words that occur at least 100 times.
 
-We use the same way of plotting, therefore the size and color stand for the same reasons.
+In the following word clouds words that occur at least 100 times are visualized.
+
 ```{r}
 set.seed(142)   
 dark2 <- brewer.pal(6, "Dark2")   
@@ -484,32 +502,34 @@ wordcloud::wordcloud(names(freq), freq, max.words=100, rot.per=0.2, colors=dark2
 
 ## **Clustering by Term Similarity**
 
-### **Hierarchal Clustering**
+### **Hierarchical Clustering**
 
-The aim to do a Hierarchal Clustering is to find the hierarchical decomposition of the data based on group similarities. It is a powerful clustering technique because it helps to see how different sub-clusters relate to each other, and how far apart data points are.
+The aim to do a hierarchical clustering is to find the hierarchical decomposition of the data based on group similarities. It is a powerful clustering technique because it helps to see how different sub-clusters relate to each other, and how far apart data points are.
 
 
-To do the Hierarchical clustering, first we should find the distance between words and for this purpose we used Euclidean norm and then clustered based on those distances.
+To do the Hierarchical clustering, first we should find the distance between words and for this purpose, we used Euclidean norm and then clustered based on those distances.
 
 ```{r}
 d <- dist(t(dtms), method="euclidian")   
 fit <- hclust(d=d, method="complete")   # for a different look try substituting: method="ward.D"
 fit   
 ```
-Dendrograms are the plots used to visualize the hierarchal clustering. Vertical direction (y-axis) in it represents the distance between clusters in some metric such that higher lines in dendrograms indicate larger distance between the clusters. The number of clusters in Dandrograms depends on the cut(a horizontal line) that we choose.
+
+Dendrograms are the plots used to visualize the hierarchal clustering. Vertical direction (y-axis) in the plot represents the distance between clusters in some metric such that higher lines in dendrograms indicate larger distance between the clusters. The number of clusters in dandrograms depends on the cut(a horizontal line) that we choose.
 
 ```{r}
 plot(fit, hang=-1)
 ```
+
 As we can see in the plot above:
 
-- At first  "called" and "place" are combined into one cluster, say cluster 1, since they were the closest in distance followed by "manifest" and "purpose", say cluster 2. After that other clusters were merged with these two clusters. At last all the clusters are merged into a single cluster and this is where the clustering process stops.
+- At first  "called" and "place" are combined into one cluster, say cluster 1, since they were the closest in distance followed by "manifest" and "purpose", say cluster 2. After that other clusters were merged with these two clusters. At last, all the clusters are merged into a single cluster and this is where the clustering process stops.
 
 - "state" and "government" are equally distant from "will" because the former 2 terms are in a cluster before either of them joins "will".
 
 - If cut=100 is chosen then we will have 3 clusters.
 
-And here the red boxes show the 6 clusters:
+And in the following, the red boxes show the 6 clusters:
 
 ```{r}
 plot.new()
@@ -523,9 +543,10 @@ rect.hclust(fit, k=6, border="red") # draw dendogram with red borders around the
 
 K-Means Clustering takes data points as input and groups them into k clusters. The result would be a model that takes a data sample as input and returns the cluster that the new data point belongs to.
 
-To do the k-means clustering, first we should find the distance between words and for this purpose we used 3 different norms("Euclidian", "Manhattan","Maximum") and the clustered based on them.
+To do the k-means clustering, first we should find the distance between words and for this purpose we used 3 different norms("Euclidean", "Manhattan","Maximum") and the clustered based on them.
 
-In what follows, there are clusplots for K-Means clustering with different norms. In clusplots, each ellipse indicate a Principal Component. At the bottom of each plot we can see the percentage of the point variability explained by these components.
+In what follows, there are bivariate cluster plots
+(clusplots) for K-Means clustering with different norms. In clusplots, each ellipse indicate a principal component. At the bottom of each plot, we can see the percentage of the point variability explained by these components.
 
 **Norm: Euclidean**
 ```{r}
@@ -570,31 +591,31 @@ clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 ```
 
 
-Evidenced by the results from k-means, in most of the norms, the component having the most effectiveness in explaining the document term matrix, contain the following terms:
+Evidenced by the results from k-means clustering, in most of the norms, the component having the most effectiveness in explaining the document term matrix is the one contain the following terms:
 {will, power, government, states, nation, people} 
 
 # **Doc Similarity** {#docsim}
 
-For this section, [textreuse](https://docs.ropensci.org/textreuse/) library, is used.
+For finding the similarity score, we are using [textreuse](https://docs.ropensci.org/textreuse/) library. There are a set of functions in this library which take two sets or bag of words and measure their similarity or dissimilarity.
+They are listed in the following: 
 
-For finding the similarity score, we are using textreuse library. There are a set of functions in this library which take two sets or bag of words and measure their similarity or dissimilarity.
-They are: 
+- `jaccard_similarity(a, b)`
+- `jaccard_dissimilarity(a, b)`
+- `jaccard_bag_similarity(a, b)`
+- `ratio_of_matches(a, b)`
 
-- jaccard_similarity(a, b)
-- jaccard_dissimilarity(a, b)
-- jaccard_bag_similarity(a, b)
-- ratio_of_matches(a, b)
+For this project, we are using Jaccard Similarity and ratio of matches. Let's describe them and look at the results more closely.
 
-For this project we are using Jaccard Similarity and Ratio of matches. Let's describe them and look at the results more closely.
+The Jaccard measurements of similarity for two sets is provided by the function `jaccard_similarity`. The coefficients will range from 0 to 1. The greater the number for the similarity coefficient, the more similar the two sets are to one another. 
 
-The Jaccard measurements of similarity for two sets is provided by the function jaccard similarity. The coefficients will range from 0 to 1. The greater the number for the similarity coefficient, the more similar the two sets are to one another. 
+$$J(a, b) = | a \cap b | / |a \cup b|$$
 
-$$J(A, B) = | A \cap B | / |A \cup B|$$
+The ratio between the number of items in $b$ that are also in $a$ is determined by the function `ratio_of_matches`. The directionality of this similarity metric should be noted; it quantifies how much $b$ borrows from a while omitting any information regarding how much $a$ borrows from $b$.
 
-The ratio between the number of items in b that are also in a is determined by the function ratio of matches. The directionality of this similarity metric should be noted; it quantifies how much b borrows from a while omitting any information regarding how much a borrows from b.
 
 
 We compare documents in a pairwise manner and use jaccard similarity to measure the similarity between them. After doing so, a score is calculated for each pair as shown in the results:
+
 ```{r}
 #loc <- "./data/texts"
 #docs <- tm::VCorpus(DirSource(loc)) 
@@ -613,11 +634,9 @@ compare_df |> head(3)
 ```
 
 ```{r}
-#Najada
 corpus
 writeLines(as.character(corpus[1]))
 ```
-
 
 
 
@@ -659,7 +678,7 @@ fig
 
 **Similarity Measure: Ratio of Matches**
 
-Here we use another similarity measure. The first one was based on Jaccard Similarity and this one is based in Ratio of matches.
+Here we use another similarity measure. The first one was based on Jaccard similarity and this one is based in ratio of matches.
 The method is the same, but the results are slightly different. Here we have higher similarity measures. 
 
 For this reason, this time we plot 50 most similar cases and with smaller ball size.
@@ -711,14 +730,13 @@ Evidenced by the plot, based on the Jaccard similarity, the top 6 most similar d
 - ("1897-William McKinley", "1973-Richard Nixon")
 - ("2001-George W. Bush", "2001-George W. Bush")
 
-The sixth item matches intuition, as both of its documents are from 
-the same president, "George W. Bush".
+The sixth item matches intuition, as both of its documents are from the same president, "George W. Bush".
 
 
 
 ## **Extra Material: Distance Matrix**
 
-Since the [textreuse](https://docs.ropensci.org/textreuse/) library doesn't output a distance matrix, and instead we can only have a dataframe with three columns, two of which contain documents' names, and the third one contain their similarity score (computed from Jaccard similarity), we implemented the transformation of the mentioned dataframe to a distance matrix. To achieve this, we pivot the score dataframe in the following manner:
+Since the [textreuse](https://docs.ropensci.org/textreuse/) library doesn't output a distance matrix, and instead we can only have a dataframe with three columns, two of which contain documents' names, and the third one contains their similarity score (computed from Jaccard similarity or ratio of matches), we implemented the transformation of the mentioned dataframe to a distance matrix. To achieve this, we pivot the score dataframe in the following manner:
 
 ```{r} 
 distance_df <- compare_df |> pivot_wider(names_from=a, values_from=score)
@@ -751,6 +769,8 @@ cosine_dist_mat
 # **Conclusion** {#conclusion}
 
 Firstly, it is worth mentioning our understanding behind the most used terms. 
-As shown above, the first most frequent word was "WILL". We believe, from our general knowledge as well, that this is a significant word in politician speeches. Politicians make promises, and when one promises he/she usually uses the future tense. We also notice that words like: Govern which is the stem for government, state and nation are frequently used. Again these are typical words from a state leader and we also expected them to be used frequently.
+As shown above, the first most frequent word was "will". We believe, from our general knowledge as well, that this is a significant word in politicians' speeches. Politicians make promises, and when one promises, he/she usually uses the future tense. We also notice that words like "government", "states", "nation", "people", and "power" are frequently used. Again these are typical words from a state leader and we also expected them to be used frequently.
 
-Secondly, regarding the document similarity we used two different measurement methods: respectively Jaccard Similarity and Ratio of Matches. They both presented low scores as the result, but at least for the first ranked pairs the results from Ratio of Matches are twice as high in comparison with the first method. //
+Secondly, regarding the document similarity, we used two different measurement methods: respectively Jaccard similarity and ratio of matches. They both presented low scores as the result, but at least for the first ranked pairs the results from ratio of matches are twice as high in comparison with the first method.
+
+Thirdly, as for future contributions, this work can be used to predict different aspects of the upcoming presidents' speeches, and to detect the same patterns. 
