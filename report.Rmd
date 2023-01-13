@@ -19,15 +19,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # **Libraries**
 
-The only external packaged used for this project is the [icons](https://github.com/mitchelloharawild/icons), which can be installed with the following command:
-
-```{r message = FALSE, warning = FALSE}
-# install.packages("remotes")
-#remotes::install_github("mitchelloharawild/icons")
-```
-
-The internal libraries are loaded in the following:
-
 ```{r message = FALSE, warning = FALSE}
 library(dplyr)
 library(ggplot2)
@@ -60,11 +51,18 @@ library(stringr)
 library(icons)
 ```
 
+The only external packaged used for this project is the [icons](https://github.com/mitchelloharawild/icons), which can be installed with the following command:
+
+```{r}
+# install.packages("remotes")
+#remotes::install_github("mitchelloharawild/icons")
+```
+
 To install the packages required for this project, the `renv.lock` file is provided the project's  [Github repository](https://github.com/berserkhmdvhb/MADS-NLP)
-```{r icon-chunk, echo=FALSE}
+```{r icon-github-1, echo=FALSE}
 icons::fontawesome("github", style = "brands")  # equivalent to icons::fontawesome$github$rocket
 ```
-.
+
 
 # **Introduction**
 
@@ -81,7 +79,7 @@ In [Doc Similarity](#docsim) section, we separated each speech into separate doc
 In [Conclusion](#conclusion), main findings are summarized.
 
 The github repository for this project can be found in this [link](https://github.com/berserkhmdvhb/MADS-NLP)
-```{r icon-chunk, echo=FALSE}
+```{r icon-github-2, echo=FALSE}
 icons::fontawesome("github", style = "brands")  # equivalent to icons::fontawesome$github$rocket
 ```
 
