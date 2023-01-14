@@ -60,7 +60,7 @@ The only external packaged used for this project is the [icons](https://github.c
 
 To install the packages required for this project, the `renv.lock` file is provided the project's  [Github repository](https://github.com/berserkhmdvhb/MADS-NLP)
 ```{r icon-github-1, echo=FALSE}
-icons::fontawesome("github", style = "brands")  # equivalent to icons::fontawesome$github$rocket
+icons::fontawesome("github", style = "brands")  # equivalent to icons::fontawesome$brands$github
 ```
 .
 
@@ -81,7 +81,7 @@ In [Conclusion](#conclusion), main findings are summarized.
 
 The github repository for this project can be found in this [link](https://github.com/berserkhmdvhb/MADS-NLP)
 ```{r icon-github-2, echo=FALSE}
-icons::fontawesome("github", style = "brands")  # equivalent to icons::fontawesome$github$rocket
+icons::fontawesome("github", style = "brands")  # equivalent to icons::fontawesome$brands$github
 ```
 .
 
